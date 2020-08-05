@@ -1,0 +1,15 @@
+<div class="home">
+    <div class="home__searchcontainer">
+        <div class="home__searchcontainer__logo">
+                <h2>Logo</h2>
+        </div>
+        <div class="home__searchcontainer__input">
+            <input type="text" placeholder="search"/>
+        </div>
+    </div>
+    <div class="home__searchitems">
+        <div *ngFor="let item of [0,1,2,3]" class="home__searchitems__card">
+                Restraunt {{item+1}}
+        </div>
+    </div>
+</div>
