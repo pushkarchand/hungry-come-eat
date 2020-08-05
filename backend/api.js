@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+let config=require('./config');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 const bcrypt = require('bcryptjs');
@@ -8,7 +9,7 @@ const BCRYPT_SALT_ROUNDS = 12;
 // declare axios for making http requests
 const axios = require('axios');
 var db;
-MongoClient.connect('mongodb+srv://test1:testone1@cluster0-h4wip.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true,
+MongoClient.connect(`mongodb+srv:${config.username}:${config.password}//@cluster0-h4wip.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true,
 useUnifiedTopology: true }, (err, database) => {
 if (err) return console.log(err);
 db = database.db('testone');
