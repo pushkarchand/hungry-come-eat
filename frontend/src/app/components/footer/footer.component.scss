@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'mixins';
+.footerbody{
+    display: grid;
+    grid-gap: 2rem;
+    padding: 1rem 20%;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    background: #C2B6B6;
+    &__item{
+        color:#fff;
+        text-align: center;
+    }
+}
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem 0.5rem 1rem;
+    background: style(secondary);
+    &__left{
+        font-size: 1.4rem;
+        color:#fff;
+    }
+    &__right{
+        padding:0 2rem;
+        &__icon{
+            font-size: 1rem;
+            padding: 0 1rem;
+            i{
+                font-size: 1.4rem;
+                color:#fff;
+            }
+        }
+    }
+}

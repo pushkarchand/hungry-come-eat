@@ -47,3 +47,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/backend/controllers
+/backend/mongodb
+/backend/utils
+/backend/routes

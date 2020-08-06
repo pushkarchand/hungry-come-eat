@@ -7,6 +7,7 @@
     display: flex;
     justify-content: space-between;
     box-shadow: 0 0.1rem 0.6rem 0 rgba(0,0,0,0.3);
+    align-items: center;
     &__left{
         padding: 1.5rem 2rem;
         font-size: 1.4rem;
@@ -16,5 +17,14 @@
         padding: 1.5rem 2rem;
         font-size: 1.4rem;
         color:style(white-1);
+        &__btn{
+            margin: 0 2.5rem;
+            cursor: pointer;
+
+        }
+        &__signupbtn{
+            background: #2699FB;
+            color:style(white)
+        }
     }
 }
