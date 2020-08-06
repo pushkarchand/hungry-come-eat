@@ -25,8 +25,8 @@
                         {{item.description}}
                     </div>
                     <div class="home__searchitems__card__action__btn">
-                        <button  mat-raised-button  class="home__searchitems__card__action__btn__custom">See more</button>
-                        <button  mat-raised-button  class="home__searchitems__card__action__btn__custom">Booking</button>
+                        <button  mat-raised-button [routerLink]="['/resturant']" class="home__searchitems__card__action__btn__custom">See more</button>
+                        <button  mat-raised-button [routerLink]="['/bookings']" class="home__searchitems__card__action__btn__custom">Booking</button>
                     </div>
                 </div>
         </div>
