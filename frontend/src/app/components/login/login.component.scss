@@ -1,0 +1,64 @@
+@import 'variables';
+@import 'mixins';
+.form{
+    display: flex;
+    flex-direction: column;
+    padding: 5% 10%;
+    &__field{
+        margin: 1rem 0;
+    }
+}
+
+.signupform{
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit,minmax(21rem,1fr));
+    padding: 5% 10%;
+    @include mobile{
+        display: flex;
+        flex-direction: column;
+    }
+    &__field{
+        margin: 1rem 0;
+    }
+    &__btn{
+        grid-column: 1 / span 2;
+    }
+}
+
+::ng-deep .mat-dialog-content {
+        max-height: 90vh;
+        @include mobile{
+            max-height: 80vh;
+        }
+    }
+
+.dialog{
+    position: relative;
+    margin: 0;
+    background: style(primary);
+    color:style(white-1);
+    cursor: pointer;
+    &__closeicon{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 3rem;
+    }
+    &__title{
+        margin: 0 10%;
+    }
+}
+
+.active{
+    background: style(secondary);
+    color:style(white-1);
+}
+
+.signin{
+    display: flex;
+    justify-content: space-evenly;
+    &__btn{
+        width:35%;
+    }
+}

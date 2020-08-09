@@ -1,0 +1,51 @@
+
+<mat-dialog-actions class="dialog" >
+    <h2 class="dialog__title">Add New menuItem</h2>
+    <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography">
+    <form class="addFoodItem" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+           <mat-form-field class="full-width-input">
+                <input matInput placeholder="Food item Name" formControlName="name">
+            </mat-form-field>
+
+            <div class="full-width-input addFoodItem__fileupload">
+                <div class="file-upload">
+                    <div class="image-upload-wrap"  *ngIf="!form.value.file">
+                      <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
+                      <div class="drag-text">
+                        <h3>Drag and drop a file or select add Image</h3>
+                      </div>
+                    </div>
+                    <div *ngIf="form.value.file" class="file-upload-content">
+                      <img class="file-upload-image" src={{form.value.file}} />
+                      <div class="image-title-wrap">
+                        <button type="button" class="remove-image" (click)="resetImage()">Remove Image</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+           <mat-form-field class="full-width-input">
+                <mat-label>Resturant</mat-label>
+                <mat-select formControlName="resturant">
+                    <mat-option value="kfc">KFC</mat-option>
+                    <mat-option value="McDonald">Mac Donald</mat-option>
+                </mat-select>
+                <mat-error>
+                    Please select Resturant
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width-input">
+                <textarea matInput  placeholder="Description" formControlName="description"></textarea>
+            </mat-form-field>
+
+           <mat-form-field class="full-width-input">
+                <input matInput type="number" placeholder="Price" formControlName="price">
+            </mat-form-field>
+
+           
+            <button type="submit" [disabled]="!form.valid" mat-raised-button class="addFoodItem__btn">Proceed to save</button>
+        </form>
+</mat-dialog-content>

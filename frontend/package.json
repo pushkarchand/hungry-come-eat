@@ -23,6 +23,9 @@
     "@angular/router": "~10.0.6",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "font-awesome": "^4.7.0",
+    "moment": "^2.27.0",
+    "ngx-material-timepicker": "^5.5.3",
+    "ngx-spinner": "^10.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

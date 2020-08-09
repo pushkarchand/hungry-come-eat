@@ -1,0 +1,151 @@
+@import 'variables';
+@import 'mixins';
+.order{
+    display: flex;
+    flex-direction: row;
+    height:100%;
+    @include mobile{
+        flex-direction: column;
+    }
+    &__left{
+        flex-basis: 75%;
+        display: flex;
+        flex-direction: column;
+        margin: 0 1rem;
+        &__item{
+            display: flex;
+            justify-content: center;
+            &__image{
+                height: 20rem;
+                margin: 1rem 0 1rem 0;
+            }
+        }
+        &__details{
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            padding: 2rem;
+            margin: 1rem 0;
+            background: style(white-1);
+            &__title{
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+            &__description{
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+        }
+        &__menu{
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 3px 6px #0000004d;
+            padding: 2rem;
+            flex-direction: column;
+            margin: 0 0 2rem 0;
+            background: style(white-1);
+            @include mobile{
+                padding: 0;
+            }
+            &__cards{
+                display: grid;
+                grid-gap: 2rem;
+                padding: 2rem;
+                grid-template-columns: repeat(auto-fit,minmax(21rem,1fr));
+                @include mobile{
+                    grid-template-columns: repeat(auto-fit,minmax(32rem,1fr));
+                    padding: 1rem;
+                    grid-gap: 1rem;
+                }
+                &__item{
+                    display: flex;
+                    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                    justify-content: space-between;
+                    height: 100%;
+                    border-radius: 8px 8px;
+                    &__left{
+                        display: flex;
+                        flex-direction: column;
+                        height: 100%;
+                        flex-basis: 60%;
+                        justify-content: space-evenly;
+                        &__title{
+                            font-size: 1.4rem;
+                            text-align: center;
+                            font-weight: 600;
+                        }
+                        &__action{
+                            display: flex;
+                            justify-content: space-evenly;
+                            @include mobile{
+                                flex-direction: column;
+                            }
+                            &__action{
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-basis: 50%;
+                            }
+                            &__add{
+                                display: flex;
+                                align-items: center;
+                                flex-basis: 50%;
+                                justify-content: space-evenly;
+                            }
+                            &__amount{
+                                display: flex;
+                                justify-content: center;
+                                font-size: 1.4rem;
+                                font-weight: 600;
+                                letter-spacing: 4px;
+                            }
+                        }
+                    }
+                    &__right{
+                        img{
+                            height: 100%;
+                            width: 100%;
+                            border-radius: 0 8px 8px 0;
+                        }
+                    }
+                }
+            }
+            &__title{
+                margin-left: 2rem;
+                font-weight: 500;
+                font-size: 1.8rem;
+            }
+        }
+    }
+    &__right{
+        flex-basis: 25%;
+        background-color: #fff;
+        &__title{
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 2rem 0;
+        }
+        &__calculator{
+            display: flex;
+            &__lists{
+                list-style-type: none;
+                width: 100%;
+                padding: 0 4rem;
+                margin: 0;
+                &__item{
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 1rem;
+                    &__btn{
+                        background-color: style(primary);
+                        color:style(white-1);
+                        width:100%;
+                    }
+                }
+            }
+        }
+        
+
+    }
+}

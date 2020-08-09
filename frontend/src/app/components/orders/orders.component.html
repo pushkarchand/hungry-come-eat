@@ -1,0 +1,73 @@
+<div class="order">
+    <div class="order__left">
+        <div class="order__left__item">
+            <img class="order__left__item__image" src="../../../assets/images/Image-7.png" alt="order item">
+        </div>
+        <div class="order__left__details">
+            <div class="order__left__details__title">
+                Mac Donald Tampiness
+            </div>
+            <div class="order__left__details__description">
+                Fast foow western
+            </div>
+        </div>
+        <div class="order__left__menu">
+            <div class="order__left__menu__title">
+                Extra value meal
+            </div>
+            <div class="order__left__menu__cards">
+                <div *ngFor="let i of [0,1]" class="order__left__menu__cards__item">
+                    <div class="order__left__menu__cards__item__left">
+                        <div class="order__left__menu__cards__item__left__title">
+                            Choclate Pie
+                        </div>
+                        <div class="order__left__menu__cards__item__left__action">
+                            <div class="order__left__menu__cards__item__left__action__amount">
+                                SGD $2
+                            </div>
+                            <div class="order__left__menu__cards__item__left__action__add">
+                                <button mat-icon-button aria-label="Add item"> <mat-icon>remove_circle_outline</mat-icon></button>
+                                <div>1</div>
+                                <button mat-icon-button aria-label="Remove item"> <mat-icon>add_circle_outline</mat-icon></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order__left__menu__cards__item__right">
+                        <img src="../../../assets/images/Image-8.png" alt="menuitem"/>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="order__right">
+        <div class="order__right__title">
+              Your orders
+        </div>
+        <div class="order__right__title">
+            Mac Donald Tampiness
+        </div>
+        <hr/>
+        <div class="order__right__calculator">
+            <ul class="order__right__calculator__lists">
+                <li class="order__right__calculator__lists__item">
+                    <span>Item</span> <span>Quantity</span>  <span>Price</span>
+                </li>
+                <li *ngFor="let item of [1,2,4]" class="order__right__calculator__lists__item">
+                    <span> Item {{item}}</span>  <span>1 X {{item}}</span>  <span>SGD {{2*item|currency:'USD'}}</span>
+                </li>
+                <li class="order__right__calculator__lists__item">
+                    <span>Delivery Fee</span> <span></span>  <span>SGD $0.00</span>
+                </li>
+                <li class="order__right__calculator__lists__item">
+                    <span>GST</span>  <span>SGD $0.00</span>
+                </li>
+                <li class="order__right__calculator__lists__item">
+                    <span>Total</span>  <span>SGD $12.00</span>
+                </li>
+                <li class="order__right__calculator__lists__item">
+                    <button class="order__right__calculator__lists__item__btn" mat-raised-button color="primary">Check out</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

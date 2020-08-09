@@ -1,10 +1,50 @@
-<div class="header">
-  <div class="header__left">
-    <img src="../../../assets/images/hungry.jpeg" height="35" width="35" alt="logo"/>
+<mat-toolbar class="toolbar">
+  <div class="toolbar__menu" (click)="onToggleSideNav()">
+      <button mat-icon-button>
+          <mat-icon>menu</mat-icon>
+      </button>
   </div>
-  <div class="header__right">
-    <a class="header__right__btn">Resturant</a>
-    <a class="header__right__btn">Delivery</a>
-    <a class="header__right__btn">Sign in</a>
+  <div class="toolbar__left">
+      <img src="../assets/images/hungry.jpeg" class="toolbar__left__logo" height="50" width="50"/>
+      <span class="toolbar__left__title">Hungry Go & Eat</span>
   </div>
-</div>
+  <div class="toolbar__right">
+          <ul>
+                <li>
+                    <a routerLink='/resturant'>Resturant</a>
+                </li>
+
+                <li>
+                    <a routerLink='/delivery'>Delivery</a>
+                </li>
+            
+                <li>
+                    <a (click)="openDialog()">Login</a>
+                </li>
+                <li>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>account_circle</mat-icon>
+                      </button>
+                </li>
+          </ul>
+       
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/orders">
+              <mat-icon>shopping_cart</mat-icon>
+              <span >Orders</span>
+            </button>
+            <button mat-menu-item routerLink="/bookings">
+              <mat-icon>perm_contact_calendar</mat-icon>
+              <span >Reservations</span>
+            </button>
+            <button mat-menu-item routerLink="/users">
+              <mat-icon>supervisor_account</mat-icon>
+              <span >Users</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>input</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+  </div>
+</mat-toolbar>

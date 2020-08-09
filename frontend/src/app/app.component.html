@@ -1,2 +1,13 @@
-<router-outlet></router-outlet>
-    
+<mat-sidenav-container>
+    <mat-sidenav class="sidebar" #sidenav role="navigation">
+        <app-sidebar (sidebarToggle)="sidenav.toggle()"></app-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <app-header (sidebarToggle)="sidenav.toggle()"></app-header>
+        <main>
+            <router-outlet></router-outlet>
+            <ngx-spinner></ngx-spinner>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

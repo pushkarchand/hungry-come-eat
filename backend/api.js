@@ -72,5 +72,15 @@ router.route('/posts').get(function(req, res) {
   db.collection('menu').find().toArray( (err, results) =>
  {res.send(results)});
  });
+
+//  resturants
+
+
+
+// Bookings
+
+
+
+// 
     
 module.exports = router;

@@ -1,16 +1,22 @@
 @import 'variables';
 @import 'mixins';
+// footter body styles
 .footerbody{
     display: grid;
     grid-gap: 2rem;
     padding: 1rem 20%;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     background: #C2B6B6;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));   
+    @include mobile{
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));     
+    }
     &__item{
-        color:#fff;
+        color:style(white-1);
         text-align: center;
     }
 }
+
+// footer with copyright and social icon styles
 .footer{
     display: flex;
     justify-content: space-between;
@@ -18,8 +24,9 @@
     padding: 1rem 1rem 0.5rem 1rem;
     background: style(secondary);
     &__left{
+        // COpyright
         font-size: 1.4rem;
-        color:#fff;
+        color:style(white-1);
     }
     &__right{
         padding:0 2rem;
@@ -28,7 +35,7 @@
             padding: 0 1rem;
             i{
                 font-size: 1.4rem;
-                color:#fff;
+                color:style(white-1);
             }
         }
     }

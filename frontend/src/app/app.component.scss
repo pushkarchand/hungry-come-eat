@@ -1,0 +1,58 @@
+@import 'variables';
+@import 'mixins';
+mat-sidenav-container, mat-sidenav-content,mat-sidnav{
+    height: 100%;
+}
+
+mat-sidenav{
+    width:250px;
+
+}
+
+a{
+    text-decoration: none;
+    color:#fff;
+}
+
+a:hover,a:active{
+    color:lightgray;
+}
+
+.navigation-items{
+    list-style-type:none ;
+    padding: 0;
+    margin: 0;
+}
+
+mat-toolbar{
+    border-radius: 0.3rem;
+    @include mobile{
+        border-radius: 0;
+    }
+}
+
+
+
+.sidebar{
+    background-color: style(primary);
+    display: flex;
+    ul{
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 0 0 0;
+        margin: 0;
+        li{
+            padding: 0 1rem;
+            cursor: pointer;
+            padding: 1rem 3rem;
+        }
+    }
+}
+
+::ng-deep .my-custom-dialog-class {
+    mat-dialog-container {
+        padding: 0;
+        overflow-x: hidden;
+    }
+}

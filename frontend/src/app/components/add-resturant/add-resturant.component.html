@@ -1,0 +1,38 @@
+
+<mat-dialog-actions class="dialog" >
+    <h2 class="dialog__title">Add Resturant</h2>
+    <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography">
+    <form class="addResturant" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+           <mat-form-field class="full-width-input">
+                <input matInput placeholder="Resturant Name" formControlName="name">
+            </mat-form-field>
+
+            <div class="file-upload">
+                <div class="image-upload-wrap"  *ngIf="!form.value.file">
+                  <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
+                  <div class="drag-text">
+                    <h3>Drag and drop a file or select add Image</h3>
+                  </div>
+                </div>
+                <div *ngIf="form.value.file" class="file-upload-content">
+                  <img class="file-upload-image" src={{form.value.file}} />
+                  <div class="image-title-wrap">
+                    <button type="button" class="remove-image" (click)="resetImage()">Remove Image</button>
+                  </div>
+                </div>
+            </div>
+
+           <mat-form-field class="full-width-input">
+                <textarea matInput  placeholder="Description" formControlName="description"></textarea>
+            </mat-form-field>
+
+           <mat-form-field class="full-width-input">
+                <input matInput placeholder="Address" formControlName="address">
+            </mat-form-field>
+
+           
+            <button type="submit" [disabled]="!form.valid" mat-raised-button class="addResturant__btn">Proceed to save</button>
+        </form>
+</mat-dialog-content>

@@ -1,0 +1,69 @@
+@import 'variables';
+@import 'mixins';
+.dialog{
+    position: relative;
+    margin: 0;
+    background: style(primary);
+    color:style(white-1);
+    cursor: pointer;
+    width: 60rem;
+    @include mobile{
+        width: 30rem;
+    }
+    &__closeicon{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 3rem;
+    }
+    &__title{
+        margin: 0 10%;
+    }
+}
+
+.resturantdetails{
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 3rem 0 2rem;
+    height:60vh;
+    &__image{
+        width:25rem;
+        height: 25rem;
+        @include mobile{
+            width:20rem;
+            height: 20rem;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+        &__title{
+            font-weight: 600;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+    }
+    &__details{
+        width:25rem;
+        height: 25rem;
+        padding: 0 0 0 2rem;
+        @include mobile{
+            width:20rem;
+            height: 20rem;
+        }
+        &__item{
+            padding: 1rem;
+            &__header{
+                font-weight: 600;
+            }
+            &__value{
+                
+            }
+        }
+    }
+}
+
+::ng-deep .mat-dialog-container{
+    padding: 0;
+    overflow-x: hidden;
+}

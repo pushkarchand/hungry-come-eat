@@ -1,0 +1,41 @@
+@import 'variables';
+@import 'mixins';
+.dialog{
+    position: relative;
+    margin: 0;
+    background: style(primary);
+    color:style(white-1);
+    cursor: pointer;
+    &__closeicon{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 3rem;
+    }
+    &__title{
+        margin: 0 10%;
+    }
+}
+
+.reservationform{
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit,minmax(30rem,1fr));
+    padding: 5% 10%;
+    &__field{
+        margin: 1rem 0;
+    }
+    &__btn{
+        background-color:style(primary);
+        color:style(white-1);
+    }
+    @include mobile{
+        grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
+        grid-gap: 0;
+    }
+}
+
+::ng-deep .mat-dialog-container{
+    padding: 0;
+    overflow-x: hidden;
+}

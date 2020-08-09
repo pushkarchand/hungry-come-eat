@@ -1,1 +1,33 @@
-<p>booking works!</p>
+
+<mat-dialog-actions class="dialog" >
+    <h2 class="dialog__title">Reservation</h2>
+    <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography">
+    <form class="reservationform" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+           <mat-form-field class="full-width-input">
+                <input matInput placeholder="User Name" formControlName="userName">
+            </mat-form-field>
+
+           <mat-form-field class="full-width-input">
+                <input placeholder="Date" matInput [matDatepicker]="myDatepicker" formControlName="date">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
+            
+           <mat-form-field class="full-width-input">
+                <input matInput type="number" placeholder="TIme" formControlName="time">
+            </mat-form-field>
+
+           <mat-form-field class="full-width-input">
+                <input matInput type="number" placeholder="Number in dine" formControlName="customercount">
+            </mat-form-field>
+
+           <mat-form-field class="full-width-input">
+                <input matInput placeholder="Special consideration" formControlName="consideration">
+            </mat-form-field>
+
+           
+            <button type="submit" [disabled]="!form.valid" mat-raised-button class="reservationform__btn">Proceed to save</button>
+        </form>
+</mat-dialog-content>

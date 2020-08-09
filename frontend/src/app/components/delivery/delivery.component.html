@@ -1,0 +1,44 @@
+<!-- Body Component -->
+<div class="delivery">
+    <!-- Logo and search -->
+    <div class="delivery__searchcontainer">
+        <!-- Logo -->
+        <div class="delivery__searchcontainer__logo">
+                <img src="../../../assets/images/hungry.jpeg" alt="logo"/>
+        </div>
+        <!-- Search Input to search Food Items-->
+        <div class="delivery__searchcontainer__search">
+            <mat-form-field appearance="standard" class="delivery__searchcontainer__search__input">
+                <mat-label>Search Food Items</mat-label>
+                <input matInput placeholder="Search Restruants">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+        </div>
+    </div>
+    <!-- foodItems -->
+    <div class="delivery__searchitems">
+        <div class="delivery__searchitems__addmore">
+            <button  mat-icon-button (click)="addEditFoodItem()" aria-label="Remove item"> <mat-icon class="delivery__searchitems__addmore__btn">add_circle_outline</mat-icon></button>
+        </div>
+        <!-- foodItems repeating  -->
+        <div *ngFor="let item of menuItems" class="delivery__searchitems__card">
+                <img [src]="item.imageUrl" height="100%" width="100%" alt="newimage" class="delivery__searchitems__card__image"/>
+                <div class="delivery__searchitems__card__action">
+                    <!-- Food Item Name -->
+                    <div class="delivery__searchitems__card__action__title">
+                        {{item.name}}
+                    </div>
+                    <!-- Food Item Price -->
+                    <div class="delivery__searchitems__card__action__price">
+                        {{item.price| currency:'USD'}}
+                    </div>
+                    <!-- foodItem See more and Booking buttons -->
+                    <div class="delivery__searchitems__card__action__btn">
+                        <button  mat-raised-button routerLink="/order"  class="delivery__searchitems__card__action__btn__custom">Order</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Component -->
+<app-footer></app-footer>
