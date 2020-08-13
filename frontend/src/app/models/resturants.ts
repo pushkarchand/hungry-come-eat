@@ -1,3 +1,4 @@
 export class Resturant{
-    constructor(public name:string,public location:string,public description:string,public imageUrl:string ){}
+    constructor(public _id:string,public name:string,public location:string,public description:string,
+        public image:string,public address:string,public totalSeats:number ){}
 }

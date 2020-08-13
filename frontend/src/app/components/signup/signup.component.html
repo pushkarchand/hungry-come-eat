@@ -1,0 +1,58 @@
+<!-- Header With title and close Icon -->
+<mat-dialog-actions class="dialog" >
+    <h2 class="dialog__title">Registration</h2>
+    <mat-icon class="dialog__closeicon" (click)="closeDialog()" matSuffix>close</mat-icon>
+  </mat-dialog-actions>
+
+<!-- SignIn Form container -->
+<mat-dialog-content class="mat-typography">
+  <!-- Signup form -->
+  <form  class="signupform" [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
+        <!-- User name -->
+        <mat-form-field class="full-width-input">
+            <!-- User name Input -->
+            <input matInput placeholder="User Name" formControlName="userName">
+            <!-- Username error message -->
+            <mat-error>Username is required</mat-error>
+        </mat-form-field>
+        <!-- First name -->
+        <mat-form-field class="full-width-input">
+            <!-- First name Input -->
+            <input matInput placeholder="First Name" formControlName="firstName">
+            <!-- First name Error message -->
+            <mat-error>First Name is required</mat-error>
+        </mat-form-field>
+        <!-- Last name -->
+        <mat-form-field class="full-width-input">
+            <!-- Lastname Input -->
+            <input matInput placeholder="Last Name" formControlName="lastName">
+            <!-- Lastname error messaage -->
+            <mat-error>Last Name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error>Email is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput type="password" placeholder="Password" formControlName="password">
+            <mat-error>Password is required & must be at least 6 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+            <mat-error>Confirm Password is required & must match password</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="Address" formControlName="address">
+            <mat-error>Address is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="Postal Code" formControlName="postalCode">
+            <mat-error>PostalCode is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="Mobile" formControlName="mobile">
+            <mat-error>Mobile is required</mat-error>
+         </mat-form-field>
+      <button type="submit" [disabled]="!signUpForm.valid" class="signupform__btn"  mat-raised-button color="primary">Register</button>
+  </form>
+</mat-dialog-content>

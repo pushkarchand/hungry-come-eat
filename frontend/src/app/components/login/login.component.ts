@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit,EventEmitter } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {MustMatch} from '../../helper/must-match-validation';
-import {UIStateService} from '../../services/ui.sstate.service';
+import {UIStateService} from '../../services/ui.state.service';
+import {ApiService} from '../../services/api.service';
 
 
 @Component({
@@ -11,70 +12,51 @@ import {UIStateService} from '../../services/ui.sstate.service';
 })
 export class LoginComponent implements OnInit {
   loginInvalid:boolean;
+  isProgress:boolean;
   login:boolean;
   LoginForm: FormGroup;
-  signUpForm: FormGroup;
-  error:string;
-
- 
-  constructor(private formBuilder: FormBuilder,private _uiStateService:UIStateService) { }
+  onSignup = new EventEmitter();
+  onSigin = new EventEmitter();
+  constructor(private formBuilder: FormBuilder,private _uiStateService:UIStateService,private _apiService:ApiService) { }
 
   ngOnInit(): void {
     this.loginInvalid=false;
+    this.isProgress=false;
     this.LoginForm= this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-    this.signUpForm= this.formBuilder.group({
-      userName: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      address: ['', Validators.required],
-      postalCode:['', Validators.required],
-      // dob:['', Validators.required],
-      mobile: ['', Validators.required],
-  }, {
-      validator: MustMatch('password', 'confirmPassword')
-  });
-    this.login=true;
-    this.loginInvalid=false;
   }
 
   public submitLogin() {
-    if (this.LoginForm.valid) {
-      console.log(this.LoginForm.value);
+    if (this.LoginForm.valid && !this.isProgress) {
       this.loginInvalid=false;
+      this.isProgress=true;
+      this._apiService.post('api/authuser',this.LoginForm.value)
+      .subscribe(response=>{
+        this.isProgress=false;
+        localStorage.setItem("authtoken",response.authToken);
+        this._uiStateService.getUserDetails();
+        this.onSigin.emit(this.LoginForm.value);
+      },(error)=>{
+        console.log(error);
+        this.loginInvalid=true;
+        this.isProgress=false;
+      })
+
     } else{
       this.loginInvalid=true;
     }
   }
 
-  public submitSignUp() {
-    if (this.signUpForm.valid) {
-      console.log(this.signUpForm.value);
-      this.loginInvalid=false;
-    } else{
-      this.loginInvalid=true;
-    }
-  }
 
-  public signIn(){
-    this.login=true;
-  }
-
-  public signUp(){
-    this.login=false;
-  }
-
-  public checkError = (controlName: string, errorName: string) => {
-    return this.signUpForm.controls[controlName].hasError(errorName);
-  }
 
   public closeDialog(){
-      this._uiStateService.editLogedIn(false);
+      this.onSigin.emit(this.LoginForm.value);
+  }
+
+  userSignup(){
+      this.onSignup.emit();
   }
 
 }

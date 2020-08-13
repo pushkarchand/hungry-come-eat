@@ -7,15 +7,15 @@ import { DeliveryComponent } from './components/delivery/delivery.component';
 import { UserbookingsComponent } from './components/userbookings/userbookings.component';
 import { UserordersComponent } from './components/userorders/userorders.component';
 import { UsersComponent } from './components/users/users.component';
-
+import {AuthGuard} from './helper/authguard';
 
 const routes: Routes = [
   { path: 'resturant', component: ResturantsComponent },
   { path: 'delivery', component: DeliveryComponent },
-  { path: 'order', component: OrdersComponent },
-  { path: 'orders', component:UserordersComponent },
-  { path: 'bookings', component:UserbookingsComponent },
-  { path: 'users', component:UsersComponent },
+  { path: 'order/:foodItemId/:resturantId', component: OrdersComponent,canActivate: [AuthGuard] },
+  { path: 'orders', component:UserordersComponent,canActivate: [AuthGuard] },
+  { path: 'bookings', component:UserbookingsComponent,canActivate: [AuthGuard] },
+  { path: 'users', component:UsersComponent,canActivate: [AuthGuard] },
   { path: '**', component: ResturantsComponent }
 ];
 

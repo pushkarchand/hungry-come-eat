@@ -11,14 +11,14 @@
 
             <div class="full-width-input addFoodItem__fileupload">
                 <div class="file-upload">
-                    <div class="image-upload-wrap"  *ngIf="!form.value.file">
+                    <div class="image-upload-wrap"  *ngIf="!form.value.image">
                       <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
                       <div class="drag-text">
                         <h3>Drag and drop a file or select add Image</h3>
                       </div>
                     </div>
-                    <div *ngIf="form.value.file" class="file-upload-content">
-                      <img class="file-upload-image" src={{form.value.file}} />
+                    <div *ngIf="form.value.image" class="file-upload-content">
+                      <img class="file-upload-image" src={{form.value.image}} />
                       <div class="image-title-wrap">
                         <button type="button" class="remove-image" (click)="resetImage()">Remove Image</button>
                       </div>
@@ -29,8 +29,7 @@
            <mat-form-field class="full-width-input">
                 <mat-label>Resturant</mat-label>
                 <mat-select formControlName="resturant">
-                    <mat-option value="kfc">KFC</mat-option>
-                    <mat-option value="McDonald">Mac Donald</mat-option>
+                    <mat-option *ngFor="let item of listOfResturants" [value]="item._id">{{item.name}}</mat-option>
                 </mat-select>
                 <mat-error>
                     Please select Resturant

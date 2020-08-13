@@ -7,23 +7,29 @@
     &__field{
         margin: 1rem 0;
     }
-    &__btn{
-        padding: 1rem 1rem;
+}
+
+.signupform{
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit,minmax(21rem,1fr));
+    padding: 5% 10%;
+    @include mobile{
         display: flex;
-        justify-content: center;
+        flex-direction: column;
     }
-    &__message{
-        text-align: center;
-        padding-top: 1rem;
+    &__field{
+        margin: 1rem 0;
+    }
+    &__btn{
+        grid-column: 1 / span 2;
     }
 }
 
 ::ng-deep .mat-dialog-content {
         max-height: 90vh;
-        padding: 2rem;
         @include mobile{
             max-height: 80vh;
-            padding: 2rem;
         }
     }
 
@@ -41,18 +47,6 @@
     }
     &__title{
         margin: 0 10%;
-    }
-}
-
-.signupoption{
-    display: flex;
-    justify-content: center;
-    &__link{
-        color:style(secondary);
-        cursor: pointer;
-        &:hover{
-            border-bottom: 0.1rem solid style(secondary);
-        }
     }
 }
 

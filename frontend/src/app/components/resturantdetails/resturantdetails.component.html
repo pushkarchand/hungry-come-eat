@@ -5,7 +5,7 @@
 </mat-dialog-actions>
 <mat-dialog-content class="mat-typography resturantdetails">
     <div class="resturantdetails__image">
-        <img [src]="resturantDetails.imageUrl" [alt]="resturantDetails.imageUrl"/>
+        <img src={{resturantDetails.image}} [alt]="resturantDetails.name"/>
         <p class="resturantdetails__image__title">{{resturantDetails.name}}</p>
     </div>
     <div class="resturantdetails__details">

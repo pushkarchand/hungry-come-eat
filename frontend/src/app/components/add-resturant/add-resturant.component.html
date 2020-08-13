@@ -10,14 +10,14 @@
             </mat-form-field>
 
             <div class="file-upload">
-                <div class="image-upload-wrap"  *ngIf="!form.value.file">
+                <div class="image-upload-wrap"  *ngIf="!form.value.image">
                   <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
                   <div class="drag-text">
                     <h3>Drag and drop a file or select add Image</h3>
                   </div>
                 </div>
-                <div *ngIf="form.value.file" class="file-upload-content">
-                  <img class="file-upload-image" src={{form.value.file}} />
+                <div *ngIf="form.value.image" class="file-upload-content">
+                  <img class="file-upload-image" src={{form.value.image}} />
                   <div class="image-title-wrap">
                     <button type="button" class="remove-image" (click)="resetImage()">Remove Image</button>
                   </div>
@@ -32,7 +32,11 @@
                 <input matInput placeholder="Address" formControlName="address">
             </mat-form-field>
 
+          <mat-form-field class="full-width-input">
+              <input matInput placeholder="Number of Seats" formControlName="totalSeats">
+          </mat-form-field>
            
             <button type="submit" [disabled]="!form.valid" mat-raised-button class="addResturant__btn">Proceed to save</button>
+            
         </form>
 </mat-dialog-content>

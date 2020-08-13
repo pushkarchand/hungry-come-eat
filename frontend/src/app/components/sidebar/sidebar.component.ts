@@ -1,6 +1,7 @@
 import { Component, OnInit,Output,EventEmitter } from '@angular/core';
-import {UIStateService} from '../../services/ui.sstate.service';
-
+import { LoginComponent } from '../login/login.component';
+import { SignupComponent } from '../signup/signup.component';
+import {MatDialog} from '@angular/material/dialog';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -9,14 +10,39 @@ import {UIStateService} from '../../services/ui.sstate.service';
 export class SidebarComponent implements OnInit {
 
   @Output() public sidebarToggle=new EventEmitter();
-  constructor(private _uiStateService:UIStateService) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  public openDialog(){
-    this.sidebarToggle.emit();
-    this._uiStateService.editLogedIn(true);
-  }
+  openDialog() {
+    let dialogWidth="50vw";
+    if(window.innerWidth <= 800){
+      dialogWidth="80vw";
+    }
+    const dialogRef = this.dialog.open(LoginComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+    dialogRef.componentInstance.onSigin.subscribe(data=>{
+         dialogRef.close();
+    })
+
+    dialogRef.componentInstance.onSignup.subscribe(data=>{
+        this.openSignupDialog();
+        dialogRef.close();
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    });
+}
+
+openSignupDialog(){
+      let dialogWidth="50vw";
+      if(window.innerWidth <= 800){
+        dialogWidth="80vw";
+      }
+      const dialogRef = this.dialog.open(SignupComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+      dialogRef.componentInstance.close.subscribe(data=>{
+        dialogRef.close();
+      })
+}
+
 
 }

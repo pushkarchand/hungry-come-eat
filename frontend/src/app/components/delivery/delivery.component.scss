@@ -51,6 +51,7 @@
             justify-content: center;
             border-radius: 8px;
             height: 30rem;
+            width: 20rem;
             &__btn{
                 font-size: 5rem;
                 color:#c2c2c2;
@@ -67,15 +68,32 @@
             flex-direction: column;
             border-radius: 8px;
             height: 30rem;
+            width:20rem;
+            &__edit:hover{
+                color: style(primary);
+            }
+            &__delete:hover{
+                color: style(primary);
+            }
+            &__edit{
+                position: absolute;
+                right:2.5rem;
+                cursor: pointer;
+            }
+            &__delete{
+                position: absolute;
+                right:0;
+                cursor: pointer;
+            }
             &__image{
                 width: 18rem;
                 height: 18rem;
             }
-            img{
+            img{    
                 width: 100%;
                 height: 100%;
-                max-width: 200px;
-                max-height: 180px;
+                max-width: 20rem;
+                max-height: 18rem;
                 border-radius: 8px 8px 0 0;
             }
             &__action{

@@ -3,12 +3,15 @@
         <div class="order__left__item">
             <img class="order__left__item__image" src="../../../assets/images/Image-7.png" alt="order item">
         </div>
-        <div class="order__left__details">
+        <div class="order__left__details" *ngIf="foodItem">
             <div class="order__left__details__title">
-                Mac Donald Tampiness
+                {{foodItem.name}}
             </div>
             <div class="order__left__details__description">
-                Fast foow western
+                {{foodItem.description}}
+            </div>
+            <div class="order__left__details__description">
+               $ {{foodItem.price}}
             </div>
         </div>
         <div class="order__left__menu">
@@ -16,24 +19,24 @@
                 Extra value meal
             </div>
             <div class="order__left__menu__cards">
-                <div *ngFor="let i of [0,1]" class="order__left__menu__cards__item">
+                <div *ngFor="let item of relatedFoodItems" class="order__left__menu__cards__item">
                     <div class="order__left__menu__cards__item__left">
                         <div class="order__left__menu__cards__item__left__title">
-                            Choclate Pie
+                            {{item.name}}
                         </div>
                         <div class="order__left__menu__cards__item__left__action">
                             <div class="order__left__menu__cards__item__left__action__amount">
-                                SGD $2
+                               SG ${{item.price}}
                             </div>
                             <div class="order__left__menu__cards__item__left__action__add">
-                                <button mat-icon-button aria-label="Add item"> <mat-icon>remove_circle_outline</mat-icon></button>
-                                <div>1</div>
-                                <button mat-icon-button aria-label="Remove item"> <mat-icon>add_circle_outline</mat-icon></button>
+                                <button mat-icon-button aria-label="Remove item"  (click)="removeItemFromOrder(item)" > <mat-icon>remove_circle_outline</mat-icon></button>
+                                <div>{{item.count}}</div>
+                                <button mat-icon-button aria-label="Add item" (click)="addItemToOrder(item)"> <mat-icon>add_circle_outline</mat-icon></button>
                             </div>
                         </div>
                     </div>
                     <div class="order__left__menu__cards__item__right">
-                        <img src="../../../assets/images/Image-8.png" alt="menuitem"/>
+                        <img src={{item.image}} alt="menuitem"/>
                     </div>
             </div>
             </div>
@@ -43,29 +46,29 @@
         <div class="order__right__title">
               Your orders
         </div>
-        <div class="order__right__title">
+        <!-- <div class="order__right__title">
             Mac Donald Tampiness
-        </div>
+        </div> -->
         <hr/>
         <div class="order__right__calculator">
             <ul class="order__right__calculator__lists">
                 <li class="order__right__calculator__lists__item">
-                    <span>Item</span> <span>Quantity</span>  <span>Price</span>
+                    <span class="order__right__calculator__lists__item__name">Item</span> <span>Quantity</span>  <span>Price</span>
                 </li>
-                <li *ngFor="let item of [1,2,4]" class="order__right__calculator__lists__item">
-                    <span> Item {{item}}</span>  <span>1 X {{item}}</span>  <span>SGD {{2*item|currency:'USD'}}</span>
-                </li>
-                <li class="order__right__calculator__lists__item">
-                    <span>Delivery Fee</span> <span></span>  <span>SGD $0.00</span>
+                <li *ngFor="let item of orderedItems" class="order__right__calculator__lists__item">
+                    <span class="order__right__calculator__lists__item__name"> {{item.name}}</span>  <span>1 X {{item.count}}</span>  <span>SGD {{item.price*item.count|currency:'USD'}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <span>GST</span>  <span>SGD $0.00</span>
+                    <span class="order__right__calculator__lists__item__name">Delivery Fee</span> <span></span>  <span>SGD ${{deliveryCharges}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <span>Total</span>  <span>SGD $12.00</span>
+                    <span class="order__right__calculator__lists__item__name">GST</span>  <span> SGD ${{gstValue}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <button class="order__right__calculator__lists__item__btn" mat-raised-button color="primary">Check out</button>
+                    <span class="order__right__calculator__lists__item__name">Total</span>  <span>SGD $ {{totalCharges}}</span>
+                </li>
+                <li class="order__right__calculator__lists__item">
+                    <button class="order__right__calculator__lists__item__btn" (click)="placeOrder()" mat-raised-button color="primary">Check out</button>
                 </li>
             </ul>
         </div>

@@ -24,7 +24,9 @@
         </div>
         <!-- Resturants repeating  -->
         <div *ngFor="let item of restruants" class="resturant__searchitems__card">
-                <img [src]="item.imageUrl" height="100%" width="100%" alt="newimage" class="resturant__searchitems__card__image"/>
+                <img src={{item.image}} height="100%" width="100%" alt="newimage" class="resturant__searchitems__card__image"/>
+                <mat-icon *ngIf="isLogedIn && userDetails.role==='admin'" title="Delete Resturant" (click)="deleteResturant(item)" class="resturant__searchitems__card__delete">delete</mat-icon>
+                <mat-icon *ngIf="isLogedIn && userDetails.role==='admin'" title="Edit Resturant" (click)="addResturant(item)" class="resturant__searchitems__card__edit">edit</mat-icon>
                 <div class="resturant__searchitems__card__action">
                     <!-- Resturant Name -->
                     <div class="resturant__searchitems__card__action__title">

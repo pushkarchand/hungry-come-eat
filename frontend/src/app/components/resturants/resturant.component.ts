@@ -5,7 +5,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {BookingComponent} from '../booking/booking.component';
 import {ResturantdetailsComponent} from '../resturantdetails/resturantdetails.component';
 import { AddResturantComponent } from '../add-resturant/add-resturant.component';
-
+import { ApiService } from '../../services/api.service';
+import { User } from '../../models/user';
+import { UIStateService } from '../../services/ui.state.service';
 
 @Component({
   selector: 'app-home',
@@ -14,22 +16,26 @@ import { AddResturantComponent } from '../add-resturant/add-resturant.component'
 })
 export class ResturantsComponent implements OnInit {
   public restruants:Array<Resturant>;
-  constructor(private spinner: NgxSpinnerService,private dialog: MatDialog) { }
+  public isLogedIn:boolean;
+  public userDetails:User;
+  constructor(private spinner: NgxSpinnerService,private dialog: MatDialog,
+              private _apiService:ApiService,private _uiStateService:UIStateService) { }
   ngOnInit(): void {
+    this._uiStateService.castLogedIn.subscribe(value=>this.isLogedIn=value);
+    this._uiStateService.castUser.subscribe(value=>this.userDetails=value);
+    this.restruants=[];
     this.enumerateResturants();
     this.spinner.show();
   }
 
   public enumerateResturants(){
-    this.restruants=[];
-    const resturant1=new Resturant("Crystal  Jade ","Location","Crystal  Jade ","../../../assets/images/Image-1.png");
-    const resturant2=new Resturant("Ding Tai Feng ","Location","Ding Tai Feng","../../../assets/images/Image-2.png");
-    const resturant3=new Resturant("Mac Donald Tampiness","Location","Mac Donald Tampiness","../../../assets/images/Image-3.png");
-    const resturant4=new Resturant("Pu Tien","Location","Pu Tien","../../../assets/images/Image-4.png");
-    setTimeout(()=>{
-      this.restruants.push(resturant1,resturant2,resturant3,resturant4,resturant1,resturant2,resturant3,resturant4);
-      this.spinner.hide();
-    },100);
+      this._apiService.getAll('api/resturant')
+      .subscribe(response=>{
+        this.restruants=response;
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      })
   }
 
   booking(resturant){
@@ -43,15 +49,43 @@ export class ResturantsComponent implements OnInit {
     );
   }
 
-  addResturant(){
+  addResturant(argResturant=null){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {resturant:null};
+    dialogConfig.data = {resturant:argResturant};
     const dialogRef = this.dialog.open(AddResturantComponent,dialogConfig);
+    dialogRef.componentInstance.save.subscribe(val =>{ 
+      this.createNewResturant(val);
+      dialogRef.close();
+    }),
+    dialogRef.componentInstance.update.subscribe(val =>{ 
+      this.updateResturant(val);
+      dialogRef.close();
+    }),
     dialogRef.afterClosed().subscribe(
         val => console.log("Dialog output:", val)
     );
+  }
+
+  createNewResturant(argValue){
+    this.spinner.show();
+    this._apiService.post('api/resturant',argValue)
+    .subscribe(response=>{
+      this.enumerateResturants();
+    },error=>{
+      this.spinner.hide();
+    })
+  }
+
+  public updateResturant(argValue){
+    this.spinner.show();
+    this._apiService.update('api/resturant',argValue,argValue._id)
+    .subscribe(response=>{
+      this.enumerateResturants();
+    },error=>{
+      this.spinner.hide();
+    })
   }
 
   showMore(resturant){
@@ -63,6 +97,17 @@ export class ResturantsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
         val => console.log("Dialog output:", val)
     );
+  }
+
+  deleteResturant(argResturant){
+    this.spinner.show();
+    this._apiService.delete('api/resturant',argResturant._id)
+    .subscribe(response=>{
+      this.enumerateResturants();
+      this.spinner.hide();
+    },error=>{
+      this.spinner.hide();
+    })
   }
 
 }

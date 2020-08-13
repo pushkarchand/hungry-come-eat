@@ -15,6 +15,7 @@ export class UserordersComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource);
   }
 }
 

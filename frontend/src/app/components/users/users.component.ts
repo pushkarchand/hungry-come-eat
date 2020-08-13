@@ -1,20 +1,33 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-
+import { ApiService } from 'src/app/services/api.service';
+import { User,UserDetails } from 'src/app/models/user';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[];
+  dataSource:Array<UserDetails>;
+  isLoading:boolean;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  constructor(private _apiService:ApiService){}
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    this.dataSource=[];
+    this.isLoading=true;
+    this.enumerateUsers();
+  }
+
+  public enumerateUsers(){
+    this._apiService.getAll('api/users')
+    .subscribe(response=>{
+        this.dataSource=response;
+        this.isLoading=false;
+    },(error)=>this.isLoading=false)
   }
 }
 

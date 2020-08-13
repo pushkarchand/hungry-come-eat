@@ -131,7 +131,7 @@
             &__lists{
                 list-style-type: none;
                 width: 100%;
-                padding: 0 4rem;
+                padding: 0 1rem;
                 margin: 0;
                 &__item{
                     display: flex;
@@ -141,6 +141,9 @@
                         background-color: style(primary);
                         color:style(white-1);
                         width:100%;
+                    }
+                    &__name{
+                        width:15rem;
                     }
                 }
             }

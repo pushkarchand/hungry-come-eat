@@ -6,7 +6,7 @@
   </div>
   <div class="toolbar__left">
       <img src="../assets/images/hungry.jpeg" class="toolbar__left__logo" height="50" width="50"/>
-      <span class="toolbar__left__title">Hungry Go & Eat</span>
+      <span class="toolbar__left__title">Hungry Come Eat</span>
   </div>
   <div class="toolbar__right">
           <ul>
@@ -18,17 +18,20 @@
                     <a routerLink='/delivery'>Delivery</a>
                 </li>
             
-                <li>
+                <li *ngIf="!isLogedIn">
                     <a (click)="openDialog()">Login</a>
                 </li>
-                <li>
+                <li *ngIf="isLogedIn">
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>account_circle</mat-icon>
+                        <mat-icon>account_circle</mat-icon> &nbsp; 
                       </button>
                 </li>
           </ul>
        
           <mat-menu #menu="matMenu">
+            <div mat-menu-item *ngIf="userDetails">
+              <span >{{userDetails.userName}}</span>
+            </div>
             <button mat-menu-item routerLink="/orders">
               <mat-icon>shopping_cart</mat-icon>
               <span >Orders</span>
@@ -37,11 +40,11 @@
               <mat-icon>perm_contact_calendar</mat-icon>
               <span >Reservations</span>
             </button>
-            <button mat-menu-item routerLink="/users">
+            <button mat-menu-item routerLink="/users" *ngIf=" isLogedIn && userDetails.role==='admin'">
               <mat-icon>supervisor_account</mat-icon>
               <span >Users</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="logoutUser()">
               <mat-icon>input</mat-icon>
               <span>Logout</span>
             </button>

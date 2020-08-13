@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -12,7 +13,8 @@ import {DemoMaterialModule} from './material-module';
 import { LoginComponent } from './components/login/login.component';
 import { ResturantdetailsComponent } from './components/resturantdetails/resturantdetails.component';
 import { BookingComponent } from './components/booking/booking.component';
-import {UIStateService} from './services/ui.sstate.service';
+import {UIStateService} from './services/ui.state.service';
+import {ApiService} from './services/api.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DeliveryComponent } from './components/delivery/delivery.component';
@@ -22,6 +24,8 @@ import { AddFoodItemComponent } from './components/add-food-item/add-food-item.c
 import { UserordersComponent } from './components/userorders/userorders.component';
 import { UserbookingsComponent } from './components/userbookings/userbookings.component';
 import { UsersComponent } from './components/users/users.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { OrderCheckoutComponent } from './components/order-checkout/order-checkout.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,9 @@ import { UsersComponent } from './components/users/users.component';
     AddFoodItemComponent,
     UserordersComponent,
     UserbookingsComponent,
-    UsersComponent
+    UsersComponent,
+    SignupComponent,
+    OrderCheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -48,9 +54,10 @@ import { UsersComponent } from './components/users/users.component';
     DemoMaterialModule,
     NgxMaterialTimepickerModule,
     NgxSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [UIStateService],
+  providers: [UIStateService,ApiService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

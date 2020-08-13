@@ -1,7 +1,8 @@
-import { Component, OnInit,Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,Inject,EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import * as moment from 'moment';
+import { Resturant } from 'src/app/models/resturants';
 
 @Component({
   selector: 'app-add-resturant',
@@ -10,23 +11,41 @@ import * as moment from 'moment';
 })
 export class AddResturantComponent implements OnInit {
   public form:FormGroup;
+  public resturant:Resturant;
+  save = new EventEmitter();
+  update= new EventEmitter();
   constructor(private formBuilder: FormBuilder,private dialogRef: MatDialogRef<AddResturantComponent>,
     @Inject(MAT_DIALOG_DATA) {resturant},private cd: ChangeDetectorRef) { 
-      console.log(resturant);
+        this.resturant=resturant;
     }
 
   ngOnInit(): void {
-    this.form= this.formBuilder.group({
-      name: ['', [Validators.required]],
-      file: [null, Validators.required],
-      description: ['', [Validators.required]],
-      address: ['', [Validators.required]]
-    });
+    if(this.resturant){
+      this.form= this.formBuilder.group({
+        name: [this.resturant.name, [Validators.required]],
+        image: [this.resturant.image, Validators.required],
+        description: [this.resturant.description, [Validators.required]],
+        address: [this.resturant.address, [Validators.required]],
+        totalSeats:[this.resturant.totalSeats,[Validators.required]]
+      });
+    } else{
+      this.form= this.formBuilder.group({
+        name: ['', [Validators.required]],
+        image: [null, Validators.required],
+        description: ['', [Validators.required]],
+        address: ['', [Validators.required]],
+        totalSeats:[0,[Validators.required]]
+      });
+    }
   }
 
   proceedtoSave(){
-    console.log(this.form.value);
-    this.dialogRef.close(this.form.value);
+    if(this.resturant){
+      const updateResturantValue={...this.form.value,_id:this.resturant._id};
+      this.update.emit(updateResturantValue);
+    } else{
+      this.save.emit(this.form.value); 
+    }
   }
 
   close() {
@@ -41,7 +60,7 @@ export class AddResturantComponent implements OnInit {
   
       reader.onload = () => {
         this.form.patchValue({
-          file: reader.result
+          image: reader.result
        });
       
         // need to run CD since file load runs outside of zone
@@ -52,7 +71,7 @@ export class AddResturantComponent implements OnInit {
 
   public resetImage(){
     this.form.patchValue({
-      file: ''
+      image: ''
    });
   }
 
