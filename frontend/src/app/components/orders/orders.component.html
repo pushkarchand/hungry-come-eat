@@ -1,7 +1,7 @@
 <div class="order">
     <div class="order__left">
-        <div class="order__left__item">
-            <img class="order__left__item__image" src="../../../assets/images/Image-7.png" alt="order item">
+        <div class="order__left__item"  *ngIf="foodItem">
+            <img class="order__left__item__image" src={{foodItem.image}} alt="order item">
         </div>
         <div class="order__left__details" *ngIf="foodItem">
             <div class="order__left__details__title">
@@ -59,13 +59,13 @@
                     <span class="order__right__calculator__lists__item__name"> {{item.name}}</span>  <span>1 X {{item.count}}</span>  <span>SGD {{item.price*item.count|currency:'USD'}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <span class="order__right__calculator__lists__item__name">Delivery Fee</span> <span></span>  <span>SGD ${{deliveryCharges}}</span>
+                    <span class="order__right__calculator__lists__item__name">Delivery Fee</span> <span></span>  <span>SGD ${{deliveryCharges.toFixed(2)}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <span class="order__right__calculator__lists__item__name">GST</span>  <span> SGD ${{gstValue}}</span>
+                    <span class="order__right__calculator__lists__item__name">GST</span>  <span> SGD ${{gstValue.toFixed(2)}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
-                    <span class="order__right__calculator__lists__item__name">Total</span>  <span>SGD $ {{totalCharges}}</span>
+                    <span class="order__right__calculator__lists__item__name">Total</span>  <span>SGD $ {{totalCharges.toFixed(2)}}</span>
                 </li>
                 <li class="order__right__calculator__lists__item">
                     <button class="order__right__calculator__lists__item__btn" (click)="placeOrder()" mat-raised-button color="primary">Check out</button>

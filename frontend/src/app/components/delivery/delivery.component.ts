@@ -5,6 +5,11 @@ import {MenuItem} from '../../models/menuItem';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {AddFoodItemComponent} from '../add-food-item/add-food-item.component';
 import { ApiService } from 'src/app/services/api.service';
+import { UIStateService } from 'src/app/services/ui.state.service';
+import { User } from 'src/app/models/user';
+import { LoginComponent } from '../login/login.component';
+import { SignupComponent } from '../signup/signup.component';
+
 
 @Component({
   selector: 'app-delivery',
@@ -13,8 +18,15 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DeliveryComponent implements OnInit {
   public menuItems:Array<MenuItem>;
-  constructor(private router: Router,private spinner: NgxSpinnerService,private dialog: MatDialog,private _apiService:ApiService) { }
+  isLogedIn:boolean;
+  userDetails:User;
+  name:string;
+  constructor(private router: Router,private spinner: NgxSpinnerService,private dialog: MatDialog,
+              private _apiService:ApiService,private _uiStateService:UIStateService) { }
   ngOnInit(): void {
+    this.name="";
+    this._uiStateService.castLogedIn.subscribe(value=>this.isLogedIn=value);
+    this._uiStateService.castUser.subscribe(value=>this.userDetails=value);
     this.menuItems=[];
     this.enumerateMenuItems();
     this.spinner.show();
@@ -80,8 +92,48 @@ export class DeliveryComponent implements OnInit {
   }
 
   public orderNavigate(argItem):void{
-      this.router.navigate(['/order/',argItem._id,argItem.resturant]);
+    if(this.isLogedIn){
+      if(this.userDetails.role!=='Admin'){
+        this.router.navigate(['/order/',argItem._id,argItem.resturant]);
+      }
+    } else{
+      this.openLoginDialog();
+    }
   }
+
+  openLoginDialog() {
+    let dialogWidth="50vw";
+    if(window.innerWidth <= 800){
+      dialogWidth="80vw";
+    }
+    const dialogRef = this.dialog.open(LoginComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+    dialogRef.componentInstance.onSigin.subscribe(data=>{
+        dialogRef.close();
+    })
+
+    dialogRef.componentInstance.onSignup.subscribe(data=>{
+        this.openSignupDialog();
+        dialogRef.close();
+    })
+    dialogRef.afterClosed().subscribe(result => {
+    });
+}
+
+
+openSignupDialog(){
+    let dialogWidth="50vw";
+    if(window.innerWidth <= 800){
+      dialogWidth="80vw";
+    }
+    const dialogRef = this.dialog.open(SignupComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+    dialogRef.componentInstance.signin.subscribe(data=>{
+        this.openLoginDialog();
+        dialogRef.close();
+    })
+    dialogRef.componentInstance.close.subscribe(data=>{
+      dialogRef.close();
+    })
+}
 
 
 }

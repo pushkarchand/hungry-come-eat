@@ -4,23 +4,28 @@
     <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
 </mat-dialog-actions>
 <mat-dialog-content class="mat-typography">
+    <div class="avaliableSeats">Total Seats Avaliable <b>{{avaliableSeats}}</b></div>
     <form class="reservationform" [formGroup]="form" (ngSubmit)="proceedtoSave()">
            <mat-form-field class="full-width-input">
                 <input matInput placeholder="User Name" formControlName="userName">
+                <mat-error>User Name is required</mat-error>
             </mat-form-field>
 
            <mat-form-field class="full-width-input">
-                <input placeholder="Date" matInput [matDatepicker]="myDatepicker" formControlName="date">
+                <input placeholder="Date" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="myDatepicker" formControlName="date">
                 <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker></mat-datepicker>
+                <!-- <mat-error>Reservation date is required</mat-error> -->
             </mat-form-field>
             
            <mat-form-field class="full-width-input">
-                <input matInput type="number" placeholder="TIme" formControlName="time">
+                <input matInput type="number"  placeholder="TIme in hours" formControlName="time">
+                <mat-error> Time of reservation is required </mat-error>
             </mat-form-field>
 
            <mat-form-field class="full-width-input">
-                <input matInput type="number" placeholder="Number in dine" formControlName="customercount">
+                <input matInput type="number" placeholder="Number in dine" formControlName="numberofSeats">
+                <mat-error>Number in is required & max of {{avaliableSeats}}</mat-error>
             </mat-form-field>
 
            <mat-form-field class="full-width-input">

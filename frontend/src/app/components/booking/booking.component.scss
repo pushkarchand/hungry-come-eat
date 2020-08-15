@@ -35,7 +35,15 @@
     }
 }
 
+.avaliableSeats{
+    margin: 2rem 0 0 3rem;
+}
+
 ::ng-deep .mat-dialog-container{
     padding: 0;
     overflow-x: hidden;
+}
+
+::ng-deep .mat-dialog-content{
+    max-height: 90%;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit,Output,EventEmitter } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { UIStateService } from '../../services/ui.state.service';
 import { SignupComponent } from '../signup/signup.component';
 import { LoginComponent } from '../login/login.component';
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit {
   @Output() public sidebarToggle=new EventEmitter();
   public isLogedIn:boolean;
   public userDetails:User;
-  constructor(public dialog: MatDialog,private _uiStateService:UIStateService) {}
+  constructor(public dialog: MatDialog,private _uiStateService:UIStateService,private router: Router) {}
 
   ngOnInit(): void {
     this._uiStateService.castLogedIn.subscribe(value=>this.isLogedIn=value);
@@ -67,6 +68,7 @@ export class HeaderComponent implements OnInit {
   public logoutUser(){
     localStorage.clear();
     this._uiStateService.getUserDetails();
+    this.router.navigate(['/']);
   }
 
 }

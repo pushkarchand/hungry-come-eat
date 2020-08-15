@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8" *ngIf="!isLoading">
+<div class="mat-elevation-z8 tablecontainer" *ngIf="!isLoading">
       <table>
         <thead>
           <tr>
@@ -8,6 +8,7 @@
             <th>Address</th>
             <th>Postal Code</th>
             <th>Role</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody *ngIf="dataSource.length>0">
@@ -18,6 +19,9 @@
             <td>{{item.address}}</td>
             <td>{{item.postalCode}}</td>
             <td>{{item.role}}</td>
+            <td>
+              <button class="btn"  mat-raised-button color="primary" (click)="editUser(item)"><mat-icon>edit</mat-icon></button>
+            </td>
           </tr>
         </tbody>
       </table>

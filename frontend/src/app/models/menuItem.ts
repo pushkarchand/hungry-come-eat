@@ -7,6 +7,7 @@ export class OrderItem{
 }
 
 export class Order{
-    constructor(public orderItems:OrderItem[],public deliveryCharges:number,public gstAmount:number,
-        public totalAmount:number,public deliveryAddress:string,public postalcode:number){}
+    constructor(public userId:string,public orderItems:OrderItem[],public deliveryCharges:number,public gstAmount:number,
+        public totalAmount:number,public deliveryAddress:string,public postalcode:number,
+        public createdAt:Date=new Date(),public updatedAt:Date=new Date()){}
 }

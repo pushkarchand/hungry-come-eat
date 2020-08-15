@@ -52,6 +52,9 @@
             border-radius: 8px;
             height: 30rem;
             width: 20rem;
+            @include mobile{
+                width: 29rem;
+            }
             &__btn{
                 font-size: 5rem;
                 color:#c2c2c2;
@@ -69,6 +72,10 @@
             border-radius: 8px;
             height: 30rem;
             width: 20rem;
+            @include mobile{
+                width: 29rem;
+                height:32rem;
+            }
             &__edit:hover{
                 color: style(primary);
             }

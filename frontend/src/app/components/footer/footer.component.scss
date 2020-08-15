@@ -8,7 +8,8 @@
     background: #C2B6B6;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));   
     @include mobile{
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));     
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));    
+        padding:1rem 15%; 
     }
     &__item{
         color:style(white-1);

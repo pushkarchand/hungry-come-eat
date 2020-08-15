@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule } from '@angular/forms';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +27,8 @@ import { UserbookingsComponent } from './components/userbookings/userbookings.co
 import { UsersComponent } from './components/users/users.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { OrderCheckoutComponent } from './components/order-checkout/order-checkout.component';
-
+import {FilterPipe} from './helper/searchPipe';
+import { EdituserComponent } from './components/edituser/edituser.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,10 +47,13 @@ import { OrderCheckoutComponent } from './components/order-checkout/order-checko
     UserbookingsComponent,
     UsersComponent,
     SignupComponent,
-    OrderCheckoutComponent
+    OrderCheckoutComponent,
+    FilterPipe,
+    EdituserComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     DemoMaterialModule,

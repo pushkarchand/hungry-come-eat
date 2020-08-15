@@ -1,33 +1,28 @@
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
-  
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
-  </div>
+<div class="mat-elevation-z8 tablecontainer" *ngIf="!isLoading">
+  <table>
+    <thead>
+      <tr>
+        <th>OrderId</th>
+        <th>Items</th>
+        <th>Delivery</th>
+        <th>GST</th>
+        <th>Total Amount</th>
+        <th>Delivery to</th>
+        <th>created Time</th>
+        <th>Updated Time</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="dataSource.length>0">
+      <tr *ngFor="let item of dataSource;">
+        <td>{{item._id}}</td>
+        <td>{{item.orderItems.length}}</td>
+        <td>{{item.deliveryCharges.toFixed(2)}}</td>
+        <td>{{item.gstAmount}}</td>
+        <td>{{item.totalAmount}}</td>
+        <td>{{item.deliveryAddress}}</td>
+        <td>{{item.createdAt|date}}</td>
+        <td>{{item.updatedAt|date}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

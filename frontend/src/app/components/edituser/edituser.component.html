@@ -1,13 +1,13 @@
 <!-- Header With title and close Icon -->
 <mat-dialog-actions class="dialog" >
-    <h2 class="dialog__title">Registration</h2>
+    <h2 class="dialog__title">Update User</h2>
     <mat-icon class="dialog__closeicon" (click)="closeDialog()" matSuffix>close</mat-icon>
   </mat-dialog-actions>
 
 <!-- SignIn Form container -->
 <mat-dialog-content class="mat-typography">
   <!-- Signup form -->
-  <form  class="signupform" [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
+  <form  class="signupform" [formGroup]="form" (ngSubmit)="editUser()">
         <!-- User name -->
         <mat-form-field class="full-width-input">
             <!-- User name Input -->
@@ -30,16 +30,16 @@
             <mat-error>Last Name is required</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input">
-            <input matInput placeholder="Email" formControlName="email">
-            <mat-error>Email is required</mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width-input">
-            <input matInput type="password" placeholder="Password" formControlName="password">
-            <mat-error>Password is required & must be at least 6 characters</mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width-input">
-            <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword">
-            <mat-error>Confirm Password is required & must match password</mat-error>
+                <mat-label>User Role</mat-label>
+                <mat-select formControlName="role">
+                  <mat-option  value="admin">
+                   Admin
+                  </mat-option>
+                  <mat-option  value="User">
+                    User
+                   </mat-option>
+                </mat-select>
+            <mat-error>Role is required</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input">
             <input matInput placeholder="Address" formControlName="address">
@@ -53,7 +53,7 @@
             <input matInput placeholder="Mobile" formControlName="mobile">
             <mat-error>Mobile is required</mat-error>
          </mat-form-field>
-      <button type="submit" [disabled]="!signUpForm.valid" class="signupform__btn"  mat-raised-button color="primary">
+      <button type="submit" [disabled]="!form.valid" class="signupform__btn"  mat-raised-button color="primary">
         <span *ngIf="!isProgress">Submit</span> 
         <mat-spinner color="accent" [diameter]="25" *ngIf="isProgress"></mat-spinner>
       </button>

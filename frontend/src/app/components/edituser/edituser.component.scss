@@ -1,41 +1,40 @@
 @import 'variables';
 @import 'mixins';
-.ordercheckout{
+.form{
     display: flex;
     flex-direction: column;
-    padding: 10%;
-    &__header{
-       font-weight: 600;
-        text-align: center;
-    }
-    &__body{
-        display: flex;
-        flex-direction: column;
-        &__charges{
-            display: flex;
-            justify-content: space-between;
-            margin: 0.5rem 0;
-        }
-    }
-    &__footer{
+    padding: 5% 10%;
+    &__field{
         margin: 1rem 0;
-        &__info{
-            margin: 0.5rem 0;
-        }
-    }
-    &__submit{
-        display: flex;
-        justify-content: center;
-        &__btn{
-            background-color: style(primary);
-            width:100%;
-        }
     }
 }
 
+.signupform{
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit,minmax(21rem,1fr));
+    padding: 5% 10%;
+    @include mobile{
+        display: flex;
+        flex-direction: column;
+    }
+    &__field{
+        margin: 1rem 0;
+    }
+    &__btn{
+        grid-column: 1 / span 2;
+    }
+}
+
+::ng-deep .mat-dialog-content {
+        max-height: 90vh;
+        @include mobile{
+            max-height: 80vh;
+        }
+    }
 
 ::ng-deep .mat-dialog-container{
-    padding: 0;
+    padding:0;
     overflow-x: hidden;
 }
 
@@ -54,4 +53,9 @@
     &__title{
         margin: 0 10%;
     }
+}
+
+.active{
+    background: style(secondary);
+    color:style(white-1);
 }

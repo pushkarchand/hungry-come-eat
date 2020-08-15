@@ -82,10 +82,14 @@ db = database.db('testone');
 
 
     // API to enumerate All users
-    router.route('/users').get(async(req,res)=>{
+    router.route('/users').get(authorizeToken,async(req,res)=>{
       try{
+        if(req.role==='admin'){
           const users=await db.collection('users').find({},{projection:{password:0}}).toArray();
           successResponse(req,res,users);
+        } else{
+          errorResponse(req,res,"Access Denied",500);
+        }
       }catch(error){
           errorResponse(req,res,error);
       }
@@ -93,9 +97,27 @@ db = database.db('testone');
 
 
     // API to get user user
-    router.route('/users/:id').get(async(req,res)=>{
+    router.route('/users/:id').get(authorizeToken,async(req,res)=>{
       try{
           const user=await db.collection('users').findOne({"_id":ObjectId(req.params.id)},{projection:{password:0}});
+          successResponse(req,res,user);
+      }catch(error){
+          errorResponse(req,res,error);
+      }
+    })
+
+
+    router.route('/user/:id').put(authorizeToken,async(req,res)=>{
+      try{
+          const userName = req.body.userName;
+          const firstName= req.body.firstName;
+          const lastName=req.body.lastName;
+          const address= req.body.address;
+          const postalCode=req.body.postalCode;
+          const mobile=req.body.mobile;
+          const role=req.body.role;
+          const newvalue={userName,firstName,lastName,address,postalCode,mobile,role};
+          const user=await db.collection('users').updateOne({"_id":ObjectId(req.params.id)},{"$set":newvalue});
           successResponse(req,res,user);
       }catch(error){
           errorResponse(req,res,error);
@@ -268,7 +290,9 @@ db = database.db('testone');
         const numberofSeats=req.body.numberofSeats;
         const time=req.body.time;
         const resturantId=req.body.resturantId;
-        const newBooking={resturantId,userId,userName,date,numberofSeats,time};
+        const createdAt=new Date(req.body.createdAt).toISOString();
+        const updateAt=new Date(req.body.updateAt).toISOString();
+        const newBooking={resturantId,userId,userName,date,numberofSeats,time,createdAt,updateAt};
         const result=await db.collection('booking').insertOne(newBooking);
         successResponse(req,res,result.ops);
       } catch(error){
@@ -278,10 +302,15 @@ db = database.db('testone');
 
 
     // API to enumerate all Bookings
-    router.route('/booking').get(async(req,res)=>{
+    router.route('/booking').get(authorizeToken,async(req,res)=>{
       try{
+        if(req.role==='admin'){
           const results=await  db.collection('booking').find().toArray();
           successResponse(req,res,results);
+        } else{
+          const results=await  db.collection('booking').find({"userId":req.userId}).toArray();
+          successResponse(req,res,results);
+        }
       } catch(error){
           errorResponse(req,res,error,500);
       }
@@ -310,6 +339,29 @@ db = database.db('testone');
     })
 
 
+     // get available Seats from resturant
+     router.route('/bookingavilable').post(async (req,res)=>{
+       const date=new Date(req.body.date);
+       const startDate=new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0,0).toISOString();
+       const endDate=new Date(date.getFullYear(),date.getMonth(),date.getDate()+1,0,0,0).toISOString();
+      try{ 
+          const result=await db.collection('booking').aggregate([
+            {$match:{resturantId:{$eq:req.body.resturantId},
+                    date:{
+                              $gte:startDate,
+                              $lt: endDate
+                            }}},
+            {$group:{_id:"$resturantId",total:{$sum:"$numberofSeats"}}},
+            { $sort: { total: -1 } }
+          ]).toArray();
+          successResponse(req,res,result);
+      }
+      catch(error){
+          errorResponse(req,res,error,500);
+      }  
+    })
+
+
 
 // Order CRUD API's
 
@@ -317,12 +369,15 @@ db = database.db('testone');
     router.route('/order').post(async (req,res)=>{
       try{
         const userId = req.body.userId;
-        const numberOfItems=req.body.numberOfItems;
-        const items = req.body.items;
+        const orderItems=req.body.orderItems;
+        const deliveryCharges = req.body.deliveryCharges;
+        const gstAmount = req.body.gstAmount;
         const totalAmount = req.body.totalAmount;
-        const gst = req.body.gst;
-        const subTotal = req.body.subTotal;
-        const newOrder={userId,numberOfItems,items,totalAmount,gst,subTotal};
+        const deliveryAddress = req.body.deliveryAddress;
+        const postalcode = req.body.postalcode;
+        const createdAt=req.body.createdAt;
+        const updatedAt=req.body.updatedAt;
+        const newOrder={userId,orderItems,deliveryCharges,gstAmount,totalAmount,deliveryAddress,postalcode,createdAt,updatedAt};
         const result=await db.collection('order').insertOne(newOrder);
         successResponse(req,res,result.ops);
       } catch(error){
@@ -332,17 +387,22 @@ db = database.db('testone');
 
 
     // API to enumerate all orders
-    router.route('/order').get(async(req,res)=>{
+    router.route('/order').get(authorizeToken,async(req,res)=>{
       try{
+        if(req.role==='admin'){
           const results=await  db.collection('order').find().toArray();
           successResponse(req,res,results);
+        }else{
+          const results=await  db.collection('order').find({"userId":req.userId}).toArray();
+          successResponse(req,res,results);
+        }
       } catch(error){
           errorResponse(req,res,error,500);
       }
     })
 
     // API to get a order details
-    router.route('/order/:id').get(async (req,res)=>{
+    router.route('/order/:id').get(authorizeToken,async (req,res)=>{
       try{
         const result=await db.collection('order').findOne({"_id":ObjectId(req.params.id)});
         successResponse(req,res,result);
@@ -420,15 +480,15 @@ const generateToken=(req, userId, role,userName,opts)=> {
 }
 
 
-const authorizeToken=(req,res,next)=>{
-  const token=req.headers.token;
+function authorizeToken(req,res,next){
+  const token=req.headers.authorization;
   if(token){
     let tokenData=jwt.decode(token);
     req.userId=tokenData.userId;
     req.role=tokenData.role;
     next();
   } else{
-    responseHandler.errorResponse(req,res,'Invalid request',500);
+    errorResponse(req,res,'Invalid request',500);
   }
 }
 

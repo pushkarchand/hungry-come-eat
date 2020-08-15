@@ -13,9 +13,13 @@ export class ApiService {
     })
   }
 
+  conso
+
   // common method to get 
   public getAll(url):Observable<any>{
-    return this.http.get(`http://localhost:3000/${url}`)
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.get(`./${url}`,{headers:headers})
     .pipe(map((response:any)=>{
         if(!response.isError){
           return response.data
@@ -28,7 +32,9 @@ export class ApiService {
 
   // common method for post
   post(url,argBody):Observable<any>{
-    return this.http.post(`http://localhost:3000/${url}`,JSON.stringify(argBody),this.httpOptions)
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.post(`./${url}`,JSON.stringify(argBody),{headers:headers})
     .pipe(map((response:any)=>{
         if(!response.isError){
          
@@ -42,7 +48,9 @@ export class ApiService {
 
   // common method for Update/PUT
   update(url,argBody,argId):Observable<any>{
-    return this.http.put(`http://localhost:3000/${url}/${argId}`,JSON.stringify(argBody),this.httpOptions)
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.put(`./${url}/${argId}`,JSON.stringify(argBody),{headers:headers})
     .pipe(map((response:any)=>{
         if(!response.isError){
          
@@ -56,7 +64,9 @@ export class ApiService {
 
   // common method for DELETE
   delete(url,id):Observable<any>{
-    return this.http.delete(`http://localhost:3000/${url}/${id}`,this.httpOptions)
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.delete(`./${url}/${id}`,{headers:headers})
     .pipe(map((response:any)=>{
         if(!response.isError){
          
@@ -70,7 +80,24 @@ export class ApiService {
 
   // common method for GET with params
   getById(url,id):Observable<any>{
-    return this.http.get(`http://localhost:3000/${url}/${id}`,this.httpOptions)
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.get(`./${url}/${id}`,{headers:headers})
+    .pipe(map((response:any)=>{
+        if(!response.isError){
+         
+          return response.data
+        }
+        catchError(this.errorHandl);
+    }),
+      catchError(this.errorHandl)
+    )
+  }
+
+  public getAvailableSeats(argBody){
+    const token=localStorage.getItem("authtoken")||'';
+    let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    return this.http.post(`./api/bookingavilable`,JSON.stringify(argBody),{headers:headers})
     .pipe(map((response:any)=>{
         if(!response.isError){
          

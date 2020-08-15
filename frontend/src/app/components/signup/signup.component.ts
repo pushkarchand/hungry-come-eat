@@ -13,6 +13,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class SignupComponent implements OnInit {
   signUpForm: FormGroup;
   loginInvalid:boolean;
+  public isProgress:boolean;
   error:string;
   close = new EventEmitter();
   signin = new EventEmitter();
@@ -29,8 +30,7 @@ export class SignupComponent implements OnInit {
       confirmPassword: ['', Validators.required],
       address: ['', Validators.required],
       postalCode:['', Validators.required],
-      // dob:['', Validators.required],
-      mobile: ['', Validators.required],
+      mobile: ['', Validators.required,Validators.minLength(10),Validators.maxLength(10)],
   }, {
       validator: MustMatch('password', 'confirmPassword')
   });
@@ -38,12 +38,15 @@ export class SignupComponent implements OnInit {
 
   public submitSignUp() {
     if (this.signUpForm.valid) {
+      this.isProgress=true;
       this._apiService.post('api/registeruser',this.signUpForm.value)
       .subscribe(response=>{
         this.loginInvalid=false;
+        this.isProgress=false;
         this.signin.emit('');
       },error=>{
         console.log(error);
+        this.isProgress=false;
       })
     } else{
       this.loginInvalid=true;

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {  ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/services/api.service';
-import { MenuItem,OrderItem } from 'src/app/models/menuItem';
-
+import { MenuItem,OrderItem, Order } from 'src/app/models/menuItem';
+import { UIStateService } from 'src/app/services/ui.state.service';
+import { OrderCheckoutComponent } from '../order-checkout/order-checkout.component';
 
 @Component({
   selector: 'app-orders',
@@ -20,7 +23,9 @@ export class OrdersComponent implements OnInit {
   public deliveryCharges:number;
   public totalCharges:number;
   public gstValue:number;
-  constructor(private route: ActivatedRoute,private spinner: NgxSpinnerService,private _apiService:ApiService) { }
+  constructor(private route: ActivatedRoute,private spinner: NgxSpinnerService,
+              private _apiService:ApiService,private _uiStateService:UIStateService,private dialog: MatDialog,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -96,10 +101,26 @@ export class OrdersComponent implements OnInit {
       this.orderedItems.forEach(item=>{
         intermediteValue+=item.price*item.count;
       });
-      this.gstValue=(5*intermediteValue*0.01);
-      this.gstValue.toFixed(2);
+      this.gstValue=Number((5*intermediteValue*0.01).toPrecision(2));
       this.totalCharges=this.gstValue+this.deliveryCharges+intermediteValue;
-      this.totalCharges.toFixed(2);
+  }
+
+  public placeOrder(){
+      debugger;
+      const user=this._uiStateService.currentUserValue;
+      if(user.id){
+          debugger;
+          const order=new Order(user.id,this.orderedItems,this.deliveryCharges,this.gstValue,this.totalCharges,'',null);
+            const dialogConfig = new MatDialogConfig();
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.data = {order:order};
+            const dialogRef = this.dialog.open(OrderCheckoutComponent,dialogConfig);
+            dialogRef.componentInstance.success.subscribe(value=>{
+              dialogRef.close();
+              this.router.navigate(['/delivery']);
+            })
+      }
   }
 
 }

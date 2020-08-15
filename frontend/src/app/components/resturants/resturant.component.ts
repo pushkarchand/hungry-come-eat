@@ -8,6 +8,9 @@ import { AddResturantComponent } from '../add-resturant/add-resturant.component'
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/user';
 import { UIStateService } from '../../services/ui.state.service';
+import { LoginComponent } from '../login/login.component';
+import { SignupComponent } from '../signup/signup.component';
+
 
 @Component({
   selector: 'app-home',
@@ -18,6 +21,7 @@ export class ResturantsComponent implements OnInit {
   public restruants:Array<Resturant>;
   public isLogedIn:boolean;
   public userDetails:User;
+  public name:string;
   constructor(private spinner: NgxSpinnerService,private dialog: MatDialog,
               private _apiService:ApiService,private _uiStateService:UIStateService) { }
   ngOnInit(): void {
@@ -25,6 +29,7 @@ export class ResturantsComponent implements OnInit {
     this._uiStateService.castUser.subscribe(value=>this.userDetails=value);
     this.restruants=[];
     this.enumerateResturants();
+    this.name='';
     this.spinner.show();
   }
 
@@ -39,15 +44,61 @@ export class ResturantsComponent implements OnInit {
   }
 
   booking(resturant){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {resturant};
-    const dialogRef = this.dialog.open(BookingComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe(
-        val => console.log("Dialog output:", val)
-    );
+    if(this.isLogedIn){
+      if(this.userDetails.role!=='Admin'){
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          dialogConfig.data = {resturant};
+          const dialogRef = this.dialog.open(BookingComponent,dialogConfig);
+          dialogRef.componentInstance.booked.subscribe(response=>{
+            dialogRef.close();
+          })
+          dialogRef.afterClosed().subscribe(
+              val => console.log("Dialog output:", val)
+          );
+      }
+    } else{
+      this.openLoginDialog();
+    }
   }
+
+
+    openLoginDialog() {
+          let dialogWidth="50vw";
+          if(window.innerWidth <= 800){
+            dialogWidth="80vw";
+          }
+          const dialogRef = this.dialog.open(LoginComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+          dialogRef.componentInstance.onSigin.subscribe(data=>{
+              dialogRef.close();
+          })
+
+          dialogRef.componentInstance.onSignup.subscribe(data=>{
+              this.openSignupDialog();
+              dialogRef.close();
+          })
+          dialogRef.afterClosed().subscribe(result => {
+          });
+      }
+
+
+    openSignupDialog(){
+          let dialogWidth="50vw";
+          if(window.innerWidth <= 800){
+            dialogWidth="80vw";
+          }
+          const dialogRef = this.dialog.open(SignupComponent,{width:dialogWidth,panelClass:"my-custom-dialog-class"});
+          dialogRef.componentInstance.signin.subscribe(data=>{
+              this.openLoginDialog();
+              dialogRef.close();
+          })
+          dialogRef.componentInstance.close.subscribe(data=>{
+            dialogRef.close();
+          })
+    }
+
+
 
   addResturant(argResturant=null){
     const dialogConfig = new MatDialogConfig();

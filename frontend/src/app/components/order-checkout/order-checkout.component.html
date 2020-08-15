@@ -1,1 +1,55 @@
-<p>order-checkout works!</p>
+<mat-dialog-actions class="dialog" >
+    <h2 class="dialog__title">Order Checkout</h2>
+    <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
+</mat-dialog-actions>
+<div class="ordercheckout">
+        <div class="ordercheckout__header">
+                Your Order
+        </div>
+        <div class="ordercheckout__body">
+            <div class="ordercheckout__body__charges">
+                <div class="ordercheckout__body__charges__key">
+                    Sub total
+                </div>
+                <div class="ordercheckout__body__charges__value">
+                    SG {{subtotal|currency:'USD'}}
+                </div>
+            </div>
+            <div class="ordercheckout__body__charges">
+                <div class="ordercheckout__body__charges__key">
+                    Delivery fee
+                </div>
+                <div class="ordercheckout__body__charges__value">
+                    SG SG {{order.deliveryCharges|currency:'USD'}}
+                </div>
+            </div>
+            <div class="ordercheckout__body__charges">
+                <div class="ordercheckout__body__charges__key">
+                    GST
+                </div>
+                <div class="ordercheckout__body__charges__value">
+                    SG {{order.gstAmount|currency:'USD'}}
+                </div>
+            </div>
+            <hr/>
+            <div class="ordercheckout__body__charges">
+                <div class="ordercheckout__body__charges__key">
+                    Total
+                </div>
+                <div class="ordercheckout__body__charges__value">
+                    SG {{order.totalAmount|currency:'USD'}}
+                </div>
+            </div>
+        </div>
+        <div class="ordercheckout__footer">
+            <div class="ordercheckout__footer__info">
+                * Notice Fee will be collected when food is delivered
+            </div>
+            <div class="ordercheckout__footer__info">
+                * Adress: {{order.deliveryAddress}} {{order.postalcode}}
+            </div>
+        </div>
+        <div class="ordercheckout__submit">
+            <button class="ordercheckout__submit__btn" (click)="placeOrder()" mat-raised-button color="primary">Submit</button>
+        </div>
+</div>

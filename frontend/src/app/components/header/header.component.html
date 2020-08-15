@@ -40,7 +40,7 @@
               <mat-icon>perm_contact_calendar</mat-icon>
               <span >Reservations</span>
             </button>
-            <button mat-menu-item routerLink="/users" *ngIf=" isLogedIn && userDetails.role==='admin'">
+            <button mat-menu-item routerLink="/users" *ngIf="isLogedIn && userDetails.role==='admin'">
               <mat-icon>supervisor_account</mat-icon>
               <span >Users</span>
             </button>
