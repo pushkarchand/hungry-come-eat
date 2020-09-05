@@ -34,6 +34,7 @@
     "mongodb": "^3.6.0",
     "ngx-material-timepicker": "^5.5.3",
     "ngx-spinner": "^10.0.1",
+    "ngx-toastr": "^13.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

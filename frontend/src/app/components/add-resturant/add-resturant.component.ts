@@ -9,18 +9,31 @@ import { Resturant } from 'src/app/models/resturants';
   templateUrl: './add-resturant.component.html',
   styleUrls: ['./add-resturant.component.scss']
 })
+
+/**
+ * Component to create and Edit Resturant
+ */
 export class AddResturantComponent implements OnInit {
   public form:FormGroup;
   public resturant:Resturant;
   save = new EventEmitter();
   update= new EventEmitter();
+  /**
+   *  
+   * @param formBuilder formservice to build reactive form
+   * @param dialogRef    to show component in a dialog box
+   * @param resturant    is passed null while create. is passed as selected resturnat while edit of resturant
+   * @param cd            ChangeDetection to get change in file input
+   */
   constructor(private formBuilder: FormBuilder,private dialogRef: MatDialogRef<AddResturantComponent>,
     @Inject(MAT_DIALOG_DATA) {resturant},private cd: ChangeDetectorRef) { 
         this.resturant=resturant;
     }
 
   ngOnInit(): void {
+    // Initalize form based on the resturant passed from parent
     if(this.resturant){
+      // Invoked while Edting a resturant so set form values to Restuarnt values
       this.form= this.formBuilder.group({
         name: [this.resturant.name, [Validators.required]],
         image: [this.resturant.image, Validators.required],
@@ -29,6 +42,7 @@ export class AddResturantComponent implements OnInit {
         totalSeats:[this.resturant.totalSeats,[Validators.required]]
       });
     } else{
+      // Invoked while creating new resturant so set form values to default
       this.form= this.formBuilder.group({
         name: ['', [Validators.required]],
         image: [null, Validators.required],
@@ -39,6 +53,10 @@ export class AddResturantComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Method invoked while clicking submit button to create or edit resturant
+   */
   proceedtoSave(){
     if(this.resturant){
       const updateResturantValue={...this.form.value,_id:this.resturant._id};
@@ -48,10 +66,13 @@ export class AddResturantComponent implements OnInit {
     }
   }
 
+
+// CLose  dialog when clicked close icon in the header
   close() {
     this.dialogRef.close();
   }
 
+  // Method invoked when user selects a file and set the selected file to form and convert file into base64 format
   onFileChange(event) {
     const reader = new FileReader();
     if(event.target.files && event.target.files.length) {
@@ -69,6 +90,7 @@ export class AddResturantComponent implements OnInit {
     }
   }
 
+  // Method clicks on the remove image 
   public resetImage(){
     this.form.patchValue({
       image: ''

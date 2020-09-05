@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ApiService } from 'src/app/services/api.service';
 import { UIStateService } from 'src/app/services/ui.state.service';
 import { UserDetails } from 'src/app/models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edituser',
@@ -18,11 +19,13 @@ export class EdituserComponent implements OnInit {
   error:string;
   close = new EventEmitter();
   success = new EventEmitter();
-  constructor(private formBuilder: FormBuilder,private _apiService:ApiService,
+  // INject APiservice to make http api call, toaster to show messga, dialog to close dialog and form for reactive form
+  constructor(private formBuilder: FormBuilder,private _apiService:ApiService,private toastr: ToastrService,
     private dialogRef: MatDialogRef<EdituserComponent>,@Inject(MAT_DIALOG_DATA) {user}) {
         this.userDetails=user;
      }
 
+    //  Initialize form with user details
   ngOnInit(): void {
     this.loginInvalid=false;
     this.form= this.formBuilder.group({
@@ -36,6 +39,8 @@ export class EdituserComponent implements OnInit {
   });
   }
 
+
+  // make API calls to update user
   public editUser() {
     if (this.form.valid) {
       console.log(this.form.value);
@@ -44,6 +49,7 @@ export class EdituserComponent implements OnInit {
       .subscribe(response=>{
         this.loginInvalid=false;
         this.isProgress=false;
+        this.toastr.success(`update user sucessfully`);
         this.success.emit('');
       },error=>{
         this.error=error;
@@ -54,7 +60,7 @@ export class EdituserComponent implements OnInit {
     }
   }
 
-
+// method to close edit user dialog
  public closeDialog(){
   this.dialogRef.close();
 }

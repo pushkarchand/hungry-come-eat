@@ -10,7 +10,7 @@ import { User } from '../../models/user';
 import { UIStateService } from '../../services/ui.state.service';
 import { LoginComponent } from '../login/login.component';
 import { SignupComponent } from '../signup/signup.component';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,9 @@ export class ResturantsComponent implements OnInit {
   public isLogedIn:boolean;
   public userDetails:User;
   public name:string;
-  constructor(private spinner: NgxSpinnerService,private dialog: MatDialog,
+   // Inject router to navigate to diffrent pages,spinner for loading,api servide to make http call,userSateService for making http API call
+  // Activate route to get the order menuitem details and dialog to control the close of the dialof
+  constructor(private spinner: NgxSpinnerService,private dialog: MatDialog,private toastr: ToastrService,
               private _apiService:ApiService,private _uiStateService:UIStateService) { }
   ngOnInit(): void {
     this._uiStateService.castLogedIn.subscribe(value=>this.isLogedIn=value);
@@ -33,6 +35,8 @@ export class ResturantsComponent implements OnInit {
     this.spinner.show();
   }
 
+
+  // Method to fetch all restuarnts to be diaplayed
   public enumerateResturants(){
       this._apiService.getAll('api/resturant')
       .subscribe(response=>{
@@ -43,6 +47,7 @@ export class ResturantsComponent implements OnInit {
       })
   }
 
+  // Method to open Booking dialog in the resturnat screen after the user is logedin successfully
   booking(resturant){
     if(this.isLogedIn){
       if(this.userDetails.role!=='Admin'){
@@ -63,7 +68,7 @@ export class ResturantsComponent implements OnInit {
     }
   }
 
-
+    // Method to open sigin dialog in the resturnat screen if user tries to book withour login
     openLoginDialog() {
           let dialogWidth="50vw";
           if(window.innerWidth <= 800){
@@ -82,7 +87,7 @@ export class ResturantsComponent implements OnInit {
           });
       }
 
-
+    // Method to open signup dialog in the resturnat screen if user tries to book withour login
     openSignupDialog(){
           let dialogWidth="50vw";
           if(window.innerWidth <= 800){
@@ -99,7 +104,7 @@ export class ResturantsComponent implements OnInit {
     }
 
 
-
+  // Method to open add resturant dialog
   addResturant(argResturant=null){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -119,26 +124,31 @@ export class ResturantsComponent implements OnInit {
     );
   }
 
+  // Method to make api call to create new resturant
   createNewResturant(argValue){
     this.spinner.show();
     this._apiService.post('api/resturant',argValue)
     .subscribe(response=>{
       this.enumerateResturants();
+      this.toastr.success(`Successfully add ${argValue.name} Resturant`);
     },error=>{
       this.spinner.hide();
     })
   }
 
+  // Method to make api call to update resturant
   public updateResturant(argValue){
     this.spinner.show();
     this._apiService.update('api/resturant',argValue,argValue._id)
     .subscribe(response=>{
       this.enumerateResturants();
+      this.toastr.success(`Successfully updated ${argValue.name} Resturant`);
     },error=>{
       this.spinner.hide();
     })
   }
 
+  // show more dialog function
   showMore(resturant){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -150,6 +160,7 @@ export class ResturantsComponent implements OnInit {
     );
   }
 
+  // Method to delete Resturant for admin user
   deleteResturant(argResturant){
     this.spinner.show();
     this._apiService.delete('api/resturant',argResturant._id)

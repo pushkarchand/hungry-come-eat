@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
     this._uiStateService.castUser.subscribe(value=>this.userDetails=value);
   }
 
+  // Method to open sigin dialog
   openDialog() {
     let dialogWidth="50vw";
     if(window.innerWidth <= 800){
@@ -40,6 +41,7 @@ export class SidebarComponent implements OnInit {
     });
 }
 
+// Method to open sigup dialog
 openSignupDialog(){
       let dialogWidth="50vw";
       if(window.innerWidth <= 800){
@@ -51,10 +53,12 @@ openSignupDialog(){
       })
 }
 
+// common to navigate to diffrent routes
 navigate(argPath){
   this.router.navigate([`/${argPath}`]);
 }
 
+// Method to logout user and route user to home screen
 logout(){
   localStorage.clear();
   this._uiStateService.getUserDetails();

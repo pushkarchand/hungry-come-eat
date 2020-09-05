@@ -1,14 +1,18 @@
-
+<!-- Create / Edit resturant -->
 <mat-dialog-actions class="dialog" >
-    <h2 class="dialog__title">Add Resturant</h2>
+    <h2 class="dialog__title" *ngIf="!resturant">Add Resturant</h2>
+    <h2 class="dialog__title" *ngIf="resturant">Edit Resturant</h2>
     <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
 </mat-dialog-actions>
+<!-- Restuarnt form -->
 <mat-dialog-content class="mat-typography">
     <form class="addResturant" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+<!-- Resturant Name element with error -->
            <mat-form-field class="full-width-input">
                 <input matInput placeholder="Resturant Name" formControlName="name">
+                <mat-error>Resturant Name is required</mat-error>
             </mat-form-field>
-
+<!-- Resturant Image element with error -->
             <div class="file-upload">
                 <div class="image-upload-wrap"  *ngIf="!form.value.image">
                   <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
@@ -16,6 +20,7 @@
                     <h3>Drag and drop a file or select add Image</h3>
                   </div>
                 </div>
+                 <!-- Resturant image preview -->
                 <div *ngIf="form.value.image" class="file-upload-content">
                   <img class="file-upload-image" src={{form.value.image}} />
                   <div class="image-title-wrap">
@@ -23,19 +28,22 @@
                   </div>
                 </div>
             </div>
-
+ <!-- Resturant description element with error -->
            <mat-form-field class="full-width-input">
                 <textarea matInput  placeholder="Description" formControlName="description"></textarea>
+                <mat-error>Resturant description is required</mat-error>
             </mat-form-field>
-
+ <!-- Resturant Address element with error -->
            <mat-form-field class="full-width-input">
                 <input matInput placeholder="Address" formControlName="address">
+                <mat-error>Resturant address is required</mat-error>
             </mat-form-field>
-
+ <!-- Resturant Number of seats input element with error -->
           <mat-form-field class="full-width-input">
               <input matInput placeholder="Number of Seats" formControlName="totalSeats">
+              <mat-error>Number of seats is required</mat-error>
           </mat-form-field>
-           
+<!-- Resturant Submit button -->
             <button type="submit" [disabled]="!form.valid" mat-raised-button class="addResturant__btn">Proceed to save</button>
             
         </form>

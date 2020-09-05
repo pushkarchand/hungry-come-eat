@@ -1,12 +1,17 @@
+<!-- Order checkout Header -->
 <mat-dialog-actions class="dialog" >
     <h2 class="dialog__title">Order Checkout</h2>
     <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
 </mat-dialog-actions>
+
 <div class="ordercheckout">
+        <!-- titl1 -->
         <div class="ordercheckout__header">
                 Your Order
         </div>
+        <!-- order details rows -->       
         <div class="ordercheckout__body">
+             <!--  Sub total row-->
             <div class="ordercheckout__body__charges">
                 <div class="ordercheckout__body__charges__key">
                     Sub total
@@ -15,6 +20,7 @@
                     SG {{subtotal|currency:'USD'}}
                 </div>
             </div>
+            <!-- Delivery fee Row -->
             <div class="ordercheckout__body__charges">
                 <div class="ordercheckout__body__charges__key">
                     Delivery fee
@@ -23,6 +29,7 @@
                     SG SG {{order.deliveryCharges|currency:'USD'}}
                 </div>
             </div>
+            <!-- GST fee row -->
             <div class="ordercheckout__body__charges">
                 <div class="ordercheckout__body__charges__key">
                     GST
@@ -32,6 +39,7 @@
                 </div>
             </div>
             <hr/>
+            <!-- total row -->
             <div class="ordercheckout__body__charges">
                 <div class="ordercheckout__body__charges__key">
                     Total
@@ -41,6 +49,7 @@
                 </div>
             </div>
         </div>
+        <!-- Info rows -->
         <div class="ordercheckout__footer">
             <div class="ordercheckout__footer__info">
                 * Notice Fee will be collected when food is delivered
@@ -49,6 +58,7 @@
                 * Adress: {{order.deliveryAddress}} {{order.postalcode}}
             </div>
         </div>
+        <!-- Place order button -->
         <div class="ordercheckout__submit">
             <button class="ordercheckout__submit__btn" (click)="placeOrder()" mat-raised-button color="primary">Submit</button>
         </div>

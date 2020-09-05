@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
     this._uiStateService.castUser.subscribe(value=>this.userDetails=value);
   }
 
+// method to open signin dialog
   openDialog() {
       let dialogWidth="50vw";
       if(window.innerWidth <= 800){
@@ -41,10 +42,12 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  // close all dialog
   closeDialog() {
       this.dialog.closeAll();
   }
 
+  // Method to open signup dialog
   openSignupDialog(){
         let dialogWidth="50vw";
         if(window.innerWidth <= 800){
@@ -60,11 +63,12 @@ export class HeaderComponent implements OnInit {
         })
   }
 
-
+  // toggle sidenav in mobile screen
   public onToggleSideNav(){
     this.sidebarToggle.emit();
   }
 
+  // method to logout user
   public logoutUser(){
     localStorage.clear();
     this._uiStateService.getUserDetails();

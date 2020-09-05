@@ -1,7 +1,6 @@
 const express = require('express');
 let jwt  = require('jsonwebtoken');
 const router = express.Router();
-let config=require('./config');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 const bcrypt = require('bcryptjs');
@@ -11,8 +10,7 @@ let secret = 'hungrycomeeat2020';
 // declare axios for making http requests
 const axios = require('axios');
 var db;
-const dburl='mongodb+srv://test1:testone1@cluster0-h4wip.mongodb.net/test?retryWrites=true&w=majority';
-console.log(dburl);
+const dburl='';
 MongoClient.connect(dburl,{ useNewUrlParser: true,useUnifiedTopology: true }, (err, database) => {
 if (err) return console.log(err);
 db = database.db('testone');
@@ -345,6 +343,7 @@ db = database.db('testone');
        const startDate=new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0,0).toISOString();
        const endDate=new Date(date.getFullYear(),date.getMonth(),date.getDate()+1,0,0,0).toISOString();
       try{ 
+        // aggregrate user based on the resturantId,on date sent
           const result=await db.collection('booking').aggregate([
             {$match:{resturantId:{$eq:req.body.resturantId},
                     date:{

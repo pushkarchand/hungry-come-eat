@@ -3,12 +3,13 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Router } from '@angular/router';
 import {MenuItem} from '../../models/menuItem';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {AddFoodItemComponent} from '../add-food-item/add-food-item.component';
+import {AddMenuItemComponent} from '../add-menu-item/add-menu-item.component';
 import { ApiService } from 'src/app/services/api.service';
 import { UIStateService } from 'src/app/services/ui.state.service';
 import { User } from 'src/app/models/user';
 import { LoginComponent } from '../login/login.component';
 import { SignupComponent } from '../signup/signup.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,13 +17,15 @@ import { SignupComponent } from '../signup/signup.component';
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.scss']
 })
+
+// Delievry component to show diffrent menu items with edit and delete functionality
 export class DeliveryComponent implements OnInit {
   public menuItems:Array<MenuItem>;
   isLogedIn:boolean;
   userDetails:User;
   name:string;
   constructor(private router: Router,private spinner: NgxSpinnerService,private dialog: MatDialog,
-              private _apiService:ApiService,private _uiStateService:UIStateService) { }
+    private toastr: ToastrService,private _apiService:ApiService,private _uiStateService:UIStateService) { }
   ngOnInit(): void {
     this.name="";
     this._uiStateService.castLogedIn.subscribe(value=>this.isLogedIn=value);
@@ -32,6 +35,7 @@ export class DeliveryComponent implements OnInit {
     this.spinner.show();
   }
 
+  // Getall MenuItems 
   public enumerateMenuItems(){
       this._apiService.getAll('api/menu')
       .subscribe((response)=>{
@@ -42,12 +46,13 @@ export class DeliveryComponent implements OnInit {
       })
   }
 
+  // Open addMenuItem dialog function
   addEditFoodItem(argFoodItem:MenuItem=null){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {menuItem:argFoodItem};
-    const dialogRef = this.dialog.open(AddFoodItemComponent,dialogConfig);
+    const dialogRef = this.dialog.open(AddMenuItemComponent,dialogConfig);
     dialogRef.componentInstance.onAdd.subscribe(val =>{ 
       this.createMenuItem(val);
       dialogRef.close();
@@ -61,26 +66,33 @@ export class DeliveryComponent implements OnInit {
     );
   }
 
+
+  // Method to make API call to update menuItem
   updateMenuItem(argFoodItem){
     this.spinner.show();
     this._apiService.update('api/menu',argFoodItem,argFoodItem._id)
     .subscribe(response=>{
+      this.toastr.success(`Successfully updated ${argFoodItem.name} food item`);
       this.enumerateMenuItems();
     },error=>{
       this.spinner.hide();
     })
   }
 
+
+  // Method to make API call to create new Menu item
   createMenuItem(value){
     this.spinner.show();
     this._apiService.post('api/menu',value)
     .subscribe(response=>{
+      this.toastr.success(`Successfully added ${value.name} food item`);
       this.enumerateMenuItems();
     },error=>{
       this.spinner.hide();
     })
   }
 
+  // Method to delete menu item
   deleteMenu(argItem){
     this.spinner.show();
     this._apiService.delete('api/menu',argItem._id)
@@ -91,6 +103,7 @@ export class DeliveryComponent implements OnInit {
     })
   }
 
+  // method to order menuitem
   public orderNavigate(argItem):void{
     if(this.isLogedIn){
       if(this.userDetails.role!=='Admin'){
@@ -101,6 +114,8 @@ export class DeliveryComponent implements OnInit {
     }
   }
 
+
+  // method to show login dialog if user is loged in 
   openLoginDialog() {
     let dialogWidth="50vw";
     if(window.innerWidth <= 800){
@@ -119,7 +134,7 @@ export class DeliveryComponent implements OnInit {
     });
 }
 
-
+// Internal method to show signup dialog in delivery component
 openSignupDialog(){
     let dialogWidth="50vw";
     if(window.innerWidth <= 800){

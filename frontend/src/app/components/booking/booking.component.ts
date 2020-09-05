@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Resturant } from 'src/app/models/resturants';
 import { ApiService } from 'src/app/services/api.service';
 import { UIStateService } from 'src/app/services/ui.state.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class BookingComponent implements OnInit {
   public avaliableSeats:number; 
   public occupiedSeats:number;
   constructor(private formBuilder: FormBuilder,private _apiService:ApiService,private _uiStateService:UIStateService,
-    private dialogRef: MatDialogRef<BookingComponent>,@Inject(MAT_DIALOG_DATA) {resturant}) { 
+    private dialogRef: MatDialogRef<BookingComponent>,private toastr: ToastrService,@Inject(MAT_DIALOG_DATA) {resturant}) { 
       this.resturant=resturant;
     }
 
@@ -40,7 +41,6 @@ export class BookingComponent implements OnInit {
     });
     this.getAvaliableSeats();
     this.form.get("date").valueChanges.subscribe(response=>{
-      console.log(response);
         this.getAvaliableSeats(response);
     })
   }
@@ -58,7 +58,7 @@ export class BookingComponent implements OnInit {
         this.avaliableSeats=Number(this.resturant.totalSeats)-this.occupiedSeats;
         this.form.controls['numberofSeats'].setValidators([Validators.required,Validators.max(this.avaliableSeats)])
       } else{
-        this.form.controls['numberofSeats'].setValidators([Validators.required,Validators.max(this.avaliableSeats)])
+        this.form.controls['numberofSeats'].setValidators([Validators.required,Validators.max(this.resturant.totalSeats)])
         this.avaliableSeats=Number(this.resturant.totalSeats)
       }
     })
@@ -70,6 +70,7 @@ export class BookingComponent implements OnInit {
     if(this.form.valid){
       this._apiService.post('api/booking',{...this.form.value,resturantId:this.resturant._id,createdAt:new Date(),updateAt:new Date(),userId:this._uiStateService.currentUserValue.id})
       .subscribe(response=>{
+        this.toastr.success(`SUccessfuly booked ${this.resturant.name}`);
           this.booked.emit();
       },error=>{
           this.booked.emit();

@@ -23,10 +23,13 @@ export class OrdersComponent implements OnInit {
   public deliveryCharges:number;
   public totalCharges:number;
   public gstValue:number;
+  // Inject router to navigate to diffrent pages,spinner for loading,api servide to make http call,userSateService for making http API call
+  // Activate route to get the order menuitem details and dialog to control the close of the dialof
   constructor(private route: ActivatedRoute,private spinner: NgxSpinnerService,
               private _apiService:ApiService,private _uiStateService:UIStateService,private dialog: MatDialog,
               private router: Router) { }
 
+  // Initialize all the properties of the component 
   ngOnInit(): void {
     this.spinner.show();
     this.relatedFoodItems=[];
@@ -35,6 +38,7 @@ export class OrdersComponent implements OnInit {
     this.deliveryCharges=4;
     this.totalCharges=0;
     this.gstValue=0;
+    // get query params from url and gets respective details
     this.route.paramMap.subscribe( params => {
       this.foodItemId = params.get('foodItemId');
       this.resturantId = params.get('resturantId');
@@ -43,6 +47,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  // get menuItem details
   public getFoodItemDetails(){
         this._apiService.getById('api/menu',this.foodItemId)
         .subscribe(response=>{
@@ -55,6 +60,7 @@ export class OrdersComponent implements OnInit {
         })
   }
 
+  // Get related menuItem of the ordered item
   public getRelatedFoodItems(){
     this._apiService.getById('api/resturantmenu',this.resturantId)
     .subscribe(response=>{
@@ -63,12 +69,15 @@ export class OrdersComponent implements OnInit {
           this.relatedFoodItems.push({...item,count:0});
         }
       });
+      this.spinner.hide();
     },(error)=>{
       console.log(error);
+      this.spinner.hide();
     })
   }
 
 
+  // Add the related menuitem
   public addItemToOrder(argRelatedFoodItem:OrderItem){
     if(argRelatedFoodItem.count==0){
       // insert relatedfoodItem to OrderList and update count in argRelatedFoodItem
@@ -82,6 +91,7 @@ export class OrdersComponent implements OnInit {
     this.calculateTotalCharges();
   }
 
+  // Method to remove the order menu item from the ordered lsit
   public removeItemFromOrder(argRelatedFoodItem:OrderItem){
     if(argRelatedFoodItem.count==1){
       // Remove relatedfoodItem to OrderList and update count in argRelatedFoodItem
@@ -96,6 +106,7 @@ export class OrdersComponent implements OnInit {
     this.calculateTotalCharges();
   }
 
+  // calculae total charges and GST value
   public calculateTotalCharges(){
       let intermediteValue=0;
       this.orderedItems.forEach(item=>{
@@ -105,6 +116,7 @@ export class OrdersComponent implements OnInit {
       this.totalCharges=this.gstValue+this.deliveryCharges+intermediteValue;
   }
 
+  // Method to open order checout dialog
   public placeOrder(){
       debugger;
       const user=this._uiStateService.currentUserValue;

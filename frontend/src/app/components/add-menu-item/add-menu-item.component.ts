@@ -6,33 +6,38 @@ import { MenuItem } from 'src/app/models/menuItem';
 
 
 @Component({
-  selector: 'app-add-food-item',
-  templateUrl: './add-food-item.component.html',
-  styleUrls: ['./add-food-item.component.scss']
+  selector: 'app-add-menu-item',
+  templateUrl: './add-menu-item.component.html',
+  styleUrls: ['./add-menu-item.component.scss']
 })
-export class AddFoodItemComponent implements OnInit {
+// common component for create and edit Menu item 
+// while create menuItem is passed as null
+// while edit menuItem is passed as parameter in the dialog
+export class AddMenuItemComponent implements OnInit {
   public form:FormGroup;
   onAdd = new EventEmitter();
   update = new EventEmitter();
   public listOfResturants=[];
-  public foodItem:MenuItem;
-  constructor(private formBuilder: FormBuilder,private dialogRef: MatDialogRef<AddFoodItemComponent>,
+  public menuItem:MenuItem;
+  // inject service like dialog,formbuilder for form, api service for http call
+  constructor(private formBuilder: FormBuilder,private dialogRef: MatDialogRef<AddMenuItemComponent>,
     @Inject(MAT_DIALOG_DATA) {menuItem},private cd: ChangeDetectorRef,private _apiService:ApiService) { 
-      this.foodItem=menuItem;
+      this.menuItem=menuItem;
     }
 
   ngOnInit(): void {
-    console.log(this.foodItem);
-    if(this.foodItem){
+    // Initialize form if eidt Menuitem with menuitemValue
+    if(this.menuItem){
       this.listOfResturants=[];
       this.form= this.formBuilder.group({
-        name: [this.foodItem.name, [Validators.required]],
-        image: [this.foodItem.image, Validators.required],
-        resturant:[this.foodItem.resturant,[Validators.required]],
-        description: [this.foodItem.description, [Validators.required]],
-        price:[this.foodItem.price, [Validators.required]],
+        name: [this.menuItem.name, [Validators.required]],
+        image: [this.menuItem.image, Validators.required],
+        resturant:[this.menuItem.resturant,[Validators.required]],
+        description: [this.menuItem.description, [Validators.required]],
+        price:[this.menuItem.price, [Validators.required]],
       });
     } else{
+      // initialize form with default values
       this.listOfResturants=[];
       this.form= this.formBuilder.group({
         name: ['', [Validators.required]],
@@ -46,6 +51,9 @@ export class AddFoodItemComponent implements OnInit {
     this.enumerateResturants();
   }
 
+  /**
+   * Function to get all restruants
+   */
   public enumerateResturants(){
       this._apiService.getAll('api/resturant')
       .subscribe(response=>{
@@ -55,10 +63,14 @@ export class AddFoodItemComponent implements OnInit {
       })
   }
 
+
+  /**
+   * Function to save or edit menuitem
+   */
   proceedtoSave(){
     console.log(this.form);
-    if(this.foodItem){
-      const updateValue={...this.form.value,_id:this.foodItem._id};
+    if(this.menuItem){
+      const updateValue={...this.form.value,_id:this.menuItem._id};
       this.update.emit(updateValue);
     } else{
       this.onAdd.emit(this.form.value);
@@ -66,10 +78,18 @@ export class AddFoodItemComponent implements OnInit {
    
   }
 
+
+  /**
+   * close dialog function
+   */
   close() {
     this.dialogRef.close();
   }
 
+  /**
+   * function which handles when user selects a file of png/jpg file
+   * @param event : FileEvent
+   */
   onFileChange(event) {
     const reader = new FileReader();
     if(event.target.files && event.target.files.length) {
@@ -85,6 +105,10 @@ export class AddFoodItemComponent implements OnInit {
     }
   }
 
+
+  /**
+   * function to remove image from the form when user clicks on remove image
+   */
   public resetImage(){
     this.form.patchValue({
       image: ''

@@ -1,14 +1,17 @@
 <mat-toolbar class="toolbar">
+  <!-- Menu icon element  -->
   <div class="toolbar__menu" (click)="onToggleSideNav()">
       <button mat-icon-button>
           <mat-icon>menu</mat-icon>
       </button>
   </div>
+  <!-- Logo -->
   <div class="toolbar__left">
       <img src="../assets/images/hungry.jpeg" class="toolbar__left__logo" height="50" width="50"/>
       <span class="toolbar__left__title">Hungry Come Eat</span>
   </div>
   <div class="toolbar__right">
+    <!-- header right side routes -->
           <ul>
                 <li>
                     <a routerLink='/resturant'>Resturant</a>
@@ -27,7 +30,7 @@
                       </button>
                 </li>
           </ul>
-       
+       <!-- menu option -->
           <mat-menu #menu="matMenu">
             <div mat-menu-item *ngIf="userDetails">
               <span >{{userDetails.userName}}</span>

@@ -1,15 +1,21 @@
-
-<mat-dialog-actions class="dialog" >
-    <h2 class="dialog__title">Add New menuItem</h2>
+<!-- Create/Edit MenuItem header-->
+<mat-dialog-actions class="dialog">
+    <h2 class="dialog__title" *ngIf="menuItem">Edit menuItem</h2>
+    <h2 class="dialog__title" *ngIf="!menuItem">Add New menuItem</h2>
     <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
 </mat-dialog-actions>
+
+<!-- MenuItem form with image,name,descirption,resturant & price -->
 <mat-dialog-content class="mat-typography">
-    <form class="addFoodItem" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+    <form class="addmenuItem" [formGroup]="form" (ngSubmit)="proceedtoSave()">
+            <!-- Menu nme with error -->
            <mat-form-field class="full-width-input">
-                <input matInput placeholder="Food item Name" formControlName="name">
+                <input matInput placeholder="Menu item Name" formControlName="name">
+                <mat-error>Menu item Name is required</mat-error>
             </mat-form-field>
 
-            <div class="full-width-input addFoodItem__fileupload">
+            <!-- image uplaod are with preview -->
+            <div class="full-width-input addmenuItem__fileupload">
                 <div class="file-upload">
                     <div class="image-upload-wrap"  *ngIf="!form.value.image">
                       <input class="file-upload-input" type='file' (change)="onFileChange($event)" accept="image/*" />
@@ -25,7 +31,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Restraunt Select with error -->
            <mat-form-field class="full-width-input">
                 <mat-label>Resturant</mat-label>
                 <mat-select formControlName="resturant">
@@ -35,16 +41,18 @@
                     Please select Resturant
                 </mat-error>
             </mat-form-field>
-
+            <!-- Description Element with error -->
             <mat-form-field class="full-width-input">
                 <textarea matInput  placeholder="Description" formControlName="description"></textarea>
+                <mat-error>Description of menu item is required</mat-error>
             </mat-form-field>
-
+            <!-- Price element with error -->
            <mat-form-field class="full-width-input">
                 <input matInput type="number" placeholder="Price" formControlName="price">
+                <mat-error>Price of menu item is required</mat-error>
             </mat-form-field>
 
-           
-            <button type="submit" [disabled]="!form.valid" mat-raised-button class="addFoodItem__btn">Proceed to save</button>
+           <!-- Submit button -->
+            <button type="submit" [disabled]="!form.valid" mat-raised-button class="addmenuItem__btn">Proceed to save</button>
         </form>
 </mat-dialog-content>

@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mixins';
+// dialog header with close icon class in BEM model
 .dialog{
     position: relative;
     margin: 0;
@@ -17,6 +18,7 @@
     }
 }
 
+// Booking Form elements styles
 .reservationform{
     display: grid;
     grid-gap: 1rem;
@@ -39,11 +41,14 @@
     margin: 2rem 0 0 3rem;
 }
 
+
+// method to overwrite material dialog style
 ::ng-deep .mat-dialog-container{
     padding: 0;
     overflow-x: hidden;
 }
 
+// method to overwrite material dialog style
 ::ng-deep .mat-dialog-content{
     max-height: 90%;
 }

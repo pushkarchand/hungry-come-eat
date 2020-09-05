@@ -29,6 +29,7 @@
             <!-- Lastname error messaage -->
             <mat-error>Last Name is required</mat-error>
         </mat-form-field>
+        <!-- User role Select with error -->
         <mat-form-field class="full-width-input">
                 <mat-label>User Role</mat-label>
                 <mat-select formControlName="role">
@@ -41,18 +42,22 @@
                 </mat-select>
             <mat-error>Role is required</mat-error>
         </mat-form-field>
+        <!-- User address element with error -->
         <mat-form-field class="full-width-input">
             <input matInput placeholder="Address" formControlName="address">
             <mat-error>Address is required</mat-error>
         </mat-form-field>
+        <!-- User Postalcode element with error -->
         <mat-form-field class="full-width-input">
             <input matInput placeholder="Postal Code" formControlName="postalCode">
             <mat-error>PostalCode is required</mat-error>
         </mat-form-field>
+        <!-- User Mobile  element with error -->
         <mat-form-field class="full-width-input">
             <input matInput placeholder="Mobile" formControlName="mobile">
             <mat-error>Mobile is required</mat-error>
          </mat-form-field>
+         <!-- User edit submit button -->
       <button type="submit" [disabled]="!form.valid" class="signupform__btn"  mat-raised-button color="primary">
         <span *ngIf="!isProgress">Submit</span> 
         <mat-spinner color="accent" [diameter]="25" *ngIf="isProgress"></mat-spinner>

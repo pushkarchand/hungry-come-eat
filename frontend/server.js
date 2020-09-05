@@ -4,10 +4,9 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 // Get our API routes
-const api = require('./api.js');
+const api = require('./server/routes/api');
 
-process
-	.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason, promise) => {
 		console.error('Unhandled Rejection at Promise:', reason, promise);
 	})
 	.on('uncaughtException', (error) => {
@@ -31,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our API routes
 app.use('/api', api);
 // Catch all other routes and return the index file
-// app.get('*', (req, res) => {res.sendFile(path.join(__dirname,'dist/index.html'))});
+app.get('*', (req, res) => {res.sendFile(path.join(__dirname,'dist/index.html'))});
 // Get port from environment and store in Express
 const port = process.env.PORT || '3000';
 app.set('port', port);

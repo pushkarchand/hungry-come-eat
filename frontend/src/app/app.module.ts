@@ -21,13 +21,14 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DeliveryComponent } from './components/delivery/delivery.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { AddResturantComponent } from './components/add-resturant/add-resturant.component';
-import { AddFoodItemComponent } from './components/add-food-item/add-food-item.component';
+import { AddMenuItemComponent } from './components/add-menu-item/add-menu-item.component';
 import { UserordersComponent } from './components/userorders/userorders.component';
 import { UserbookingsComponent } from './components/userbookings/userbookings.component';
 import { UsersComponent } from './components/users/users.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { OrderCheckoutComponent } from './components/order-checkout/order-checkout.component';
 import {FilterPipe} from './helper/searchPipe';
+import { ToastrModule } from 'ngx-toastr';
 import { EdituserComponent } from './components/edituser/edituser.component';
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { EdituserComponent } from './components/edituser/edituser.component';
     DeliveryComponent,
     OrdersComponent,
     AddResturantComponent,
-    AddFoodItemComponent,
+    AddMenuItemComponent,
     UserordersComponent,
     UserbookingsComponent,
     UsersComponent,
@@ -60,7 +61,8 @@ import { EdituserComponent } from './components/edituser/edituser.component';
     NgxMaterialTimepickerModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
   providers: [UIStateService,ApiService],
   bootstrap: [AppComponent],

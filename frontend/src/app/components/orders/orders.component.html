@@ -1,8 +1,12 @@
+<!-- Order Page  -->
 <div class="order">
+    <!-- left hand side of order screen -->
     <div class="order__left">
+        <!-- Selected order image -->
         <div class="order__left__item"  *ngIf="foodItem">
             <img class="order__left__item__image" src={{foodItem.image}} alt="order item">
         </div>
+         <!-- Selected order image -->
         <div class="order__left__details" *ngIf="foodItem">
             <div class="order__left__details__title">
                 {{foodItem.name}}
@@ -14,10 +18,12 @@
                $ {{foodItem.price}}
             </div>
         </div>
+        <!-- Suggested menuitem related to the slected menuitem -->
         <div class="order__left__menu">
             <div class="order__left__menu__title">
                 Extra value meal
             </div>
+            <!-- Related menu item card -->
             <div class="order__left__menu__cards">
                 <div *ngFor="let item of relatedFoodItems" class="order__left__menu__cards__item">
                     <div class="order__left__menu__cards__item__left">
@@ -42,31 +48,36 @@
             </div>
         </div>
     </div>
+    <!-- Order right hand side , order details-->
     <div class="order__right">
         <div class="order__right__title">
               Your orders
         </div>
-        <!-- <div class="order__right__title">
-            Mac Donald Tampiness
-        </div> -->
         <hr/>
+        <!-- Diffrent charges component of the order -->
         <div class="order__right__calculator">
             <ul class="order__right__calculator__lists">
+                <!-- Headers -->
                 <li class="order__right__calculator__lists__item">
                     <span class="order__right__calculator__lists__item__name">Item</span> <span>Quantity</span>  <span>Price</span>
                 </li>
+                <!-- user selected items -->
                 <li *ngFor="let item of orderedItems" class="order__right__calculator__lists__item">
                     <span class="order__right__calculator__lists__item__name"> {{item.name}}</span>  <span>1 X {{item.count}}</span>  <span>SGD {{item.price*item.count|currency:'USD'}}</span>
                 </li>
+                <!-- Delivery charges -->
                 <li class="order__right__calculator__lists__item">
                     <span class="order__right__calculator__lists__item__name">Delivery Fee</span> <span></span>  <span>SGD ${{deliveryCharges.toFixed(2)}}</span>
                 </li>
+                <!-- GST  -->
                 <li class="order__right__calculator__lists__item">
                     <span class="order__right__calculator__lists__item__name">GST</span>  <span> SGD ${{gstValue.toFixed(2)}}</span>
                 </li>
+                <!-- Grand total of all item with gst and delivery charges -->
                 <li class="order__right__calculator__lists__item">
                     <span class="order__right__calculator__lists__item__name">Total</span>  <span>SGD $ {{totalCharges.toFixed(2)}}</span>
                 </li>
+                <!-- Place order button -->
                 <li class="order__right__calculator__lists__item">
                     <button class="order__right__calculator__lists__item__btn" (click)="placeOrder()" mat-raised-button color="primary">Check out</button>
                 </li>

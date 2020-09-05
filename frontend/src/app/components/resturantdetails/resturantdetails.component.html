@@ -1,24 +1,28 @@
+<!-- Retsurant show menu dialof -->
 
+<!-- Show more Header -->
 <mat-dialog-actions class="dialog" >
-    <h2 class="dialog__title">Resturant</h2>
+    <h2 class="dialog__title">{{resturantDetails.name}} Details</h2>
     <mat-icon class="dialog__closeicon" (click)="close()" matSuffix>close</mat-icon>
 </mat-dialog-actions>
 <mat-dialog-content class="mat-typography resturantdetails">
+    <!-- Resturamt image -->
     <div class="resturantdetails__image">
         <img src={{resturantDetails.image}} [alt]="resturantDetails.name"/>
         <p class="resturantdetails__image__title">{{resturantDetails.name}}</p>
     </div>
     <div class="resturantdetails__details">
+        <!-- Resturant name element -->
             <div class="resturantdetails__details__item">
                <div class="resturantdetails__details__item__header">Name</div>
                <div class="resturantdetails__details__item__value">{{resturantDetails.name}}</div>
             </div>
-            
+            <!-- Resturant description element -->
             <div class="resturantdetails__details__item">
                 <div class="resturantdetails__details__item__header">Description</div>
                    <div class="resturantdetails__details__item__value">{{resturantDetails.description}}</div>
             </div>
-
+<!-- Resturant Location element -->
             <div class="resturantdetails__details__item">
                 <div class="resturantdetails__details__item__header"> location</div>
                 <div class="resturantdetails__details__item__value">{{resturantDetails.address}}</div>
